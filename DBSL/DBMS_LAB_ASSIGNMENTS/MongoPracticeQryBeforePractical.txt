@@ -1,0 +1,69 @@
+//Create collection
+db.createCollection("cstOrder")
+
+// Insert Data (using insertOne function)
+db.cstOrder.insertOne({name:"Sumit",email:"sumit@test.com",contact:3214,age:20,address:{city:"Kolhapur",zip:416108},interestCat:["Mobile","Shirt","Perfume","Laptop"],orders:[{prodName:"Mobile",quantity:1,price:15000},{prodName:"Perfume",quantity:2,price:550}]})
+
+// Insert Data (using insertMany function)
+db.cstOrder.insertMany([{name:"Pavan",email:"pavan@test.com",contact:4563,age:25,address:{city:"Sinnar",zip:412908},interestCat:["Books","Bat","Laptop"],orders:[{prodName:"Laptpo",quantity:1,price:65000},{prodName:"Perfume",quantity:1,price:1550},{prodName:"Charger",quantity:1,price:350}]},{name:"Rushi",email:"rushi@test.com",contact:1231,age:16,address:{city:"Baramati",zip:411321},interestCat:["Movie","Watch","Cars"],orders:[{prodName:"Watch",quantity:1,price:2000}]}])
+
+//Insert data (using insert function)
+db.cstOrder.insert({name:"Mahesh",email:"mahesh@test.com",contact:3232,age:41,address:{city:"Kolhapur",zip:323211},interestCat:["Cars","Books"],orders:[{prodName:"Car",quantity:1,price:400000}]})
+
+
+// Reading data 
+db.cstOrder.find({},{_id:0,contact:0,email:0})
+
+
+// Update normal data (using updateOne)
+db.cstOrder.updateOne({name:"Niraj"},{$set:{email:"niraj@gmail.com"}})
+
+// Update data in embedded array
+db.cstOrder.updateOne({name:"Pavan"},{$set:{"orders.$[element].prodName":"Laptop"}},{arrayFilters:[{"element.prodName":"Laptpo"}]})
+
+// Update data (using MULTI)
+db.cstOrder.update({"address.city":"KOP"},{$set:{"address.city":"Kolhapur"}},{multi:true})
+
+// Update data (using UPSERT) dont use MULTI and UPSERT at the same time
+db.cstOrder.update({name:"Abhi"},{$set:{name:"Abhi Bhosale",age:21,address:{city:"Kolhapur",zip:412412}}},{upsert:true})
+
+**********************Use Logical and Arithmetic Operators
+
+//$and
+db.cstOrder.find({$and:[{name:"Rushi"},{"address.city":"Baramati"}]},{_id:0,orders:0,interestCat:0})
+
+//$and ,$gt
+db.cstOrder.find({$and:[{age:{$gt:25}},{"address.city":"Kolhapur"}]},{_id:0,orders:0,interestCat:0})
+
+//$or
+db.cstOrder.find({$or:[{"address.city":"Sinnar"},{"address.city":"Baramati"}]},{name:1})
+
+//$in
+db.cstOrder.find({age:{$in:[21,41]}},{name:1})
+
+//$eq
+db.cstOrder.find({age:{$eq:20}},{name:1})
+
+//$ne
+db.cstOrder.find({age:{$ne:20}},{name:1})
+
+//sum of array
+db.cstOrder.aggregate([{$project:{paymentTotal:{$sum:"$payment"}}}])
+
+//avg
+db.cstOrder.aggregate([{$project:{paymentTotal:{$avg:"$payment"}}}])
+
+
+********************************.
+//all
+db.cstOrder.find({payment:{$all:[450]}},{name:1,payment:1})
+
+//slice
+db.cstOrder.aggregate([{$project:{slicedArray:{$slice:["$payment",2]}}}])
+
+
+
+//project skip match
+db.cstOrder.aggregate([{$match:{age:{$gt:20}}},{$project:{name:1,age:1}},{$skip:1}])
+
+//group

@@ -1,0 +1,125 @@
+create procedure calcFinc(in rollin int)
+begin
+declare amt int;
+declare no_days int;
+declare issdate date;
+declare invalid_date condition for sqlstate '45000';
+declare exit handler for invalid_date resignal set message_text='FUTURE DATE OR DATE NOT FOUND';
+select doi into issdate from borrower where roll=rollin;
+set amt=0;
+set no_days = null;
+set no_days = datediff(curdate(),issdate);
+if no_days<0 or no_days is null then
+signal invalid_date;
+elseif no_days<15 then
+set amt = 0;
+elseif no_days>=15 and no_days<=30 then
+set amt = 100;
+else
+set amt = 200;
+end if;
+insert into fine values(rollin,curdate(),amt);
+end //
+
+
+create procedure calcArea(in rad int)
+begin
+declare arr float;
+declare pi float;
+declare invalid_radius condition for sqlstate '45000';
+declare exit handler for invalid_radius resignal set message_text='invalid radius';
+set arr = 0;
+set pi = 3.14;
+if(rad<5 or rad>10) then
+signal invalid_radius;
+else
+set arr = pi*rad*rad;
+end if;
+insert into area values(rad,arr);
+end //
+
+
+
+
+
+
+create procedure calcGrade(in rollin int,out grade varchar(20))
+begin
+declare m int;
+declare invalid_marks condition for sqlstate '45000';
+declare exit handler for invalid_marks resignal set message_text='invalid marks';
+select marks into m from stdRecord where roll=rollin;
+if(m<0) then
+signal invalid_marks;
+elseif m>=900 then
+set grade = 'DISTINCTION';
+elseif m>=825 then
+set grade = 'FIRSTCLASS';
+else
+set grade = 'SECONDCLASS';
+end if;
+end //
+
+
+create function calcFunc(rollin int)
+returns int
+deterministic
+begin
+declare c varchar(20);
+declare m int;
+declare n varchar(20);
+select name,marks into n,m from stdRecord where roll=rollin;
+call calcGrade(rollin,c);
+insert into result values(rollin,n,m,c);
+return rollin;
+end //
+
+
+
+create procedure merge(in eidtemp int)
+begin
+declare teid int;
+declare tname varchar(20);
+declare lastrow int default 0;
+declare cur cursor for select eid,name from oldemp where eid>eidtemp;
+declare continue handler for not found set lastrow=1;
+open cur;
+myloop:loop
+fetch cur into teid,tname;
+if(lastrow=1) then
+close cur;
+leave myloop;
+end if;
+if(teid not in(select eid from newemp)) then
+insert into newemp values(teid,tname);
+end if;
+end loop myloop;
+end //
+
+
+
+create trigger lib_bupd
+before update 
+on library
+for each row
+begin
+declare invalid_update condition for sqlstate '45000';
+declare continue handler for invalid_update resignal set message_text='invalid update';
+if(old.bid<0) then
+signal invalid_update;
+end if;
+insert into libraryaudit values(old.bid,old.bname);
+end //
+
+create trigger lib_bupd
+before update
+on library
+for each row
+begin
+declare invalid_update condition for sqlstate '45000';
+declare exit handler for invalid_update resignal set message_text='INVALID UPDATION!!';
+if(old.bid<0) then
+signal invalid_update;
+end if;
+insert into libraryaudit values(old.bid,old.bname);
+end //

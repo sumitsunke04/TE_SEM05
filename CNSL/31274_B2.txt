@@ -1,0 +1,146 @@
+Roll NO : 31274
+Sub : CNSL
+Batch N2
+
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+void distance_vector_routing_algorithm(){
+    //Initializing Graph
+    int n;
+    cout<<"Enter the number of nodes:";
+    cin>>n;
+    int graph[n][n]={0};
+    char c[n];
+    for(int i=0;i<n;i++){
+        cout<<"Enter the character for "<<i+1<<" node:";
+        char ch;
+        cin>>ch;
+        c[i]=ch;
+    }
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            if(i==j){
+                graph[i][j]=0;
+            }
+            else{
+                int x;
+                cout<<"Enter the distance between "<<c[i]<<"-"<<c[j]<<":";
+                cin>>x;
+                graph[i][j]=x;
+                graph[j][i]=x;
+            }
+        }
+    }
+    int final[n][n];
+    char via[n][n];
+    //int share[n][n][n];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            via[i][j]=-1;
+            final[i][j]=INT_MAX;
+        }
+    }       
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            for(int k=0;k<n;k++){
+                if(graph[i][j]>-1 && graph[j][k]>-1){
+                    if(final[i][k]>(graph[i][j]+graph[j][k])){
+                        final[i][k]=graph[i][j]+graph[j][k];
+                        via[i][k]=c[j];
+                        final[k][i]=final[i][k];
+                        via[k][i]=via[i][k];
+                    }
+                }
+            }
+            for(int k=0;k<n;k++){
+                if(final[i][k]==INT_MAX && final[i][j]!=INT_MAX && final[j][k]!=INT_MAX){
+                    if(final[i][k]>(final[i][j]+final[j][k])){
+                        final[i][k]=final[i][j]+final[j][k];
+                        via[i][k]=c[j];
+                        final[k][i]=final[i][k];
+                        via[k][i]=via[i][k];
+                    }
+                }
+            }
+        }
+    }
+    cout<<"After Update:"<<endl;
+    for(int i=0;i<n;i++){
+        cout<<c[i]<<" Table:"<<endl;
+        cout<<"Node\tDistance\tVia"<<endl;
+        for(int j=0;j<n;j++){
+            cout<<c[j]<<"\t"<<final[i][j]<<"\t";
+            if(via[i][j]==-1){
+                cout<<"-"<<endl;
+            }
+            else{
+                cout<<via[i][j]<<endl;
+            }
+        }
+    }   
+}
+
+
+void link_state_routing_protocol(){
+    int n;
+    cout<<"Enter the number of nodes:";
+    cin>>n;
+    char c[n];
+    for(int i=0;i<n;i++){
+        cout<<"Enter the character for "<<i+1<<" node:";
+        char ch;
+        cin>>ch;
+        c[i]=ch;
+    }
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+    vector<pair<int,int>> adj[n];
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(i==j){
+                adj[i].push_back({j,0});
+            }
+            else{
+                int x;
+                cout<<"Enter the distance between "<<c[i]<<"-"<<c[j]<<":";
+                cin>>x;
+                if(x!=-1){
+                    adj[i].push_back({j,x});
+                    adj[j].push_back({i,x});
+                }
+            }
+        }
+    }
+    vector<int> dist(n);
+    for(int i=0;i<n;i++){
+        dist[i]=1e9;
+    }   
+    dist[0]=0;
+    pq.push({0,0});
+    while(!pq.empty()){
+        int dis=pq.top().first;
+        int node=pq.top().second;
+        pq.pop();
+        for(auto it:adj[node]){
+            int adjnode=it.first;
+            int edgeweight=it.second;
+            if(dis+edgeweight<dist[adjnode]){
+                cout<<node<<"-"<<adjnode<<endl;
+                dist[adjnode]=dis+edgeweight;
+                pq.push({dist[adjnode],adjnode});
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        cout<<"Distance between "<<c[0]<<"-"<<c[i]<<":-"<<dist[i]<<endl;
+    }
+}
+
+int main(){
+    distance_vector_routing_algorithm();
+    link_state_routing_protocol();   
+    return 0;
+}

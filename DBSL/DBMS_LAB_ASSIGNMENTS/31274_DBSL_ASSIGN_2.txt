@@ -1,0 +1,357 @@
+SUB : DBSL
+ASSIGNMENT 2
+NAME : SUMIT SUNKE
+ROLL NO : 31274 (N2)
+
+PROBLEM STATEMENT:
+Assignment No 2A  (Student Schema)
+Consider the following relational Schema.  
+    •  Student( s_id,Drive_id,T_id,s_name,CGPA,s_branch,S_dob)
+    •  PlacementDrive( Drive_id,Pcompany_name,package,location)
+    •  Training ( T_id,Tcompany_name,T_Fee,T_year) 
+Note: Use referential integrity constraints while creating tables with on delete cascade options. 
+ Create view(simple), index, sequence and synonym based on above tables.  
+Assignment No 2B  
+Use the tables created in assignment no 2 and execute the following queries:  
+1. Insert at least 10 records in the Student  table and insert other tables accordingly.
+2. Display all students details with branch ‘Computer ‘and ‘It’ and student name
+    starting with  'a' or 'd'.  
+3. list the number of different companies.(use of distinct)  
+4. Give 15% increase in fee of the Training  whose joining year is 2019.
+5. Delete Student details having CGPA score less than 7.  
+6. Find the names of companies belonging to pune or Mumbai  
+7. Find the student name who joined training in  1-1-2019 as well as in 1-1-2021  
+8. Find the student name  having maximum CGPA score and names of students  having CGPA score between  7 to 9 .
+9. Display all Student  name with T_id  with decreasing order of Fees
+10. Display PCompany name, S_name ,location and Package with Package  30K, 40K and 50k
+
+----------------------------------------------------------------------------------------------------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| te31274db          |
+| test               |
++--------------------+
+3 rows in set (0.02 sec)
+
+mysql> use te31274db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+*********************** TABLE CREATION **************************
+mysql> create table placement_drive(drive_id int,pcompany_name varchar(20),package int,location varchar(20),primary key(drive_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc placement_drive;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| drive_id      | int(11)     | NO   | PRI | 0       |       |
+| pcompany_name | varchar(20) | YES  |     | NULL    |       |
+| package       | int(11)     | YES  |     | NULL    |       |
+| location      | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql> create table training(t_id int,tcompany_name varchar(20),t_fee int,t_year int,primary key(t_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc training;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| t_id          | int(11)     | NO   | PRI | 0       |       |
+| tcompany_name | varchar(20) | YES  |     | NULL    |       |
+| t_fee         | int(11)     | YES  |     | NULL    |       |
+| t_year        | int(11)     | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table student(s_id int,drive_id int,t_id int,s_name varchar(20),cgpa int,s_branch varchar(20),s_dob date,primary key(s_id),foreign key(drive_id) references placement_drive(drive_id),foreign key(t_id) references training(t_id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| s_id     | int(11)     | NO   | PRI | 0       |       |
+| drive_id | int(11)     | YES  | MUL | NULL    |       |
+| t_id     | int(11)     | YES  | MUL | NULL    |       |
+| s_name   | varchar(20) | YES  |     | NULL    |       |
+| cgpa     | int(11)     | YES  |     | NULL    |       |
+| s_branch | varchar(20) | YES  |     | NULL    |       |
+| s_dob    | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+QUERY 1: INSERT ATLEAST 10 RECORDS IN STUDENT TABLE AND INSERT OTHER TABLES ACCORDINGLY
+
+***************** DATA INSERTION IN PD TABLE********************
+mysql> insert into placement_drive values (1,'google',40000,'pune');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into placement_drive (drive_id,pcompany_name,package,location) values (2,'amazon',30000,'mumbai'),(3,'tesla',60000,'kolhapur'),(4,'meta',50000,'satara'),(5,'phonepe',35000,'pune'),(6,'tcs',40000,'mumbai');
+Query OK, 5 rows affected (0.02 sec)
+
+
+***************** DATA INSERTION IN TRAINING TABLE********************
+mysql> insert into training(t_id,tcompany_name,t_fee,t_year) values(8,'ubs',700,2020),(7,'druva',650,2021);
+mysql> insert into training(t_id,tcompany_name,t_fee,t_year) values(5,'wipro',700,2019),(6,'microsoft',600,2022);
+mysql> insert into training(t_id,tcompany_name,t_fee,t_year) values(1,'google',750,2019),
+    -> (2,'tesla',1000,2019),
+    -> (3,'phonepe',600,2020),
+    -> (4,'tcs',550,2021);
+Query OK, 4 rows affected (0.01 sec)
+
+
+***************** DATA INSERTION IN STUDENT TABLE********************
+mysql> insert into student(s_id,drive_id,t_id,s_name,cgpa,s_branch,s_dob) values(1,1,1,'ajay',6.5,'entc',2003/01/01);
+mysql> insert into student(s_id,drive_id,t_id,s_name,cgpa,s_branch,s_dob) values(2,2,2,'adi',7.3,'it',2003/02/02),
+    -> (3,3,3,'mayur',9.2,'cs',2003/03/03),
+    -> (4,4,4,'pavan',9.1,'cs',2003/04/04),
+    -> (5,5,1,'dinesh',6.8,'it',2003/05/05);
+mysql> insert into student(s_id,drive_id,t_id,s_name,cgpa,s_branch,s_dob) values(9,4,1,'darshan',10,'entc',2002/04/09), (8,5,4,'amey',8.1,'cs',2002/03/08),(7,6,3,'deepak',5,'it',2002/02/07), (6,6,2,'sumit',9.2,'cs',2002/01/06);
+mysql> insert into student(s_id,drive_id,t_id,s_name,cgpa,s_branch,s_dob) values(10,3,2,'om',8.5,'entc',2002/05/10);
+
+
+***************** DISPLAY TABLES ********************
+mysql> select *from placement_drive;
++----------+---------------+---------+----------+
+| drive_id | pcompany_name | package | location |
++----------+---------------+---------+----------+
+|        1 | google        |   40000 | pune     |
+|        2 | amazon        |   30000 | mumbai   |
+|        3 | tesla         |   60000 | kolhapur |
+|        4 | meta          |   50000 | satara   |
+|        5 | phonepe       |   35000 | pune     |
+|        6 | tcs           |   40000 | mumbai   |
++----------+---------------+---------+----------+
+6 rows in set (0.00 sec)
+
+
+mysql> select *from training;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    1 | google        |   750 |   2019 |
+|    2 | tesla         |  1000 |   2019 |
+|    3 | phonepe       |   600 |   2020 |
+|    4 | tcs           |   550 |   2021 |
+|    5 | wipro         |   700 |   2019 |
+|    6 | microsoft     |   600 |   2022 |
+|    7 | druva         |   650 |   2021 |
+|    8 | ubs           |   700 |   2020 |
++------+---------------+-------+--------+
+8 rows in set (0.00 sec)
+
+mysql> select *from student;
++------+----------+------+---------+------+----------+------------+
+| s_id | drive_id | t_id | s_name  | cgpa | s_branch | s_dob      |
++------+----------+------+---------+------+----------+------------+
+|    1 |        1 |    1 | ajay    |  6.5 | entc     | 2003-01-01 |
+|    2 |        2 |    2 | adi     |  7.3 | it       | 2003-02-02 |
+|    3 |        3 |    3 | mayur   |  9.2 | cs       | 2003-03-03 |
+|    4 |        4 |    4 | pavan   |  9.1 | cs       | 2003-04-04 |
+|    5 |        5 |    1 | dinesh  |  6.8 | it       | 2003-05-05 |
+|    6 |        6 |    2 | sumit   |  9.2 | cs       | 2002-01-06 |
+|    7 |        6 |    3 | deepak  |    5 | it       | 2002-02-07 |
+|    8 |        5 |    4 | amey    |  8.1 | cs       | 2002-03-08 |
+|    9 |        4 |    1 | darshan |   10 | entc     | 2002-04-09 |
+|   10 |        3 |    2 | om      |  8.5 | entc     | 2002-05-10 |
++------+----------+------+---------+------+----------+------------+
+
+
+QUERY 2: DISPLAY STUDENTS DETAILS WITH BRANCH COMPUTER OR IT AND NAME STARTING WITH A OR D
+
+mysql> select *from student where(s_branch = 'cs' or s_branch = 'it') and (s_name like 'a%' or s_name like 'b%');
++------+----------+------+--------+------+----------+------------+
+| s_id | drive_id | t_id | s_name | cgpa | s_branch | s_dob      |
++------+----------+------+--------+------+----------+------------+
+|    2 |        2 |    2 | adi    |  7.3 | it       | 2003-02-02 |
+|    8 |        5 |    4 | amey   |  8.1 | cs       | 2002-03-08 |
++------+----------+------+--------+------+----------+------------+
+2 rows in set (0.00 sec)
+
+
+QUERY 3 : LIST THE NUMBER OF DIFFERENT COMPANIES
+
+mysql> select count(distinct pcompany_name) as num from placement_drive;
++-----+
+| num |
++-----+
+|   6 |
++-----+
+1 row in set (0.00 sec)
+
+QUERY 4 : GIVE 15% INCREASE IN FEE OF TRAINING WHOSE JOINING YEAR IS 2019
+
+mysql> update training set t_fee = t_fee*1.15;
+Query OK, 8 rows affected (0.02 sec)
+
+mysql> select *from training;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    1 | google        |   863 |   2019 |
+|    2 | tesla         |  1150 |   2019 |
+|    3 | phonepe       |   690 |   2020 |
+|    4 | tcs           |   633 |   2021 |
+|    5 | wipro         |   805 |   2019 |
+|    6 | microsoft     |   690 |   2022 |
+|    7 | druva         |   748 |   2021 |
+|    8 | ubs           |   805 |   2020 |
++------+---------------+-------+--------+
+
+QUERY 5 : DELETE STUDENT DETAILS HAVING CGPA SCORE LESS THAN 7
+
+mysql> delete from student where cgpa<7;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select *from student;
++------+----------+------+---------+------+----------+------------+
+| s_id | drive_id | t_id | s_name  | cgpa | s_branch | s_dob      |
++------+----------+------+---------+------+----------+------------+
+|    2 |        2 |    2 | adi     |  7.3 | it       | 2003-02-02 |
+|    3 |        3 |    3 | mayur   |  9.2 | cs       | 2003-03-03 |
+|    4 |        4 |    4 | pavan   |  9.1 | cs       | 2003-04-04 |
+|    6 |        6 |    2 | sumit   |  9.2 | cs       | 2002-01-06 |
+|    8 |        5 |    4 | amey    |  8.1 | cs       | 2002-03-08 |
+|    9 |        4 |    1 | darshan |   10 | entc     | 2002-04-09 |
+|   10 |        3 |    2 | om      |  8.5 | entc     | 2002-05-10 |
++------+----------+------+---------+------+----------+------------+
+
+QUERY 6 : FIND THE NAMES OF COMPANIES BELONGING TO PUNE OR MUMBAI
+
+mysql> select pcompany_name from placement_drive where location = 'pune' or loca
+tion = 'mumbai';
++---------------+
+| pcompany_name |
++---------------+
+| google        |
+| amazon        |
+| phonepe       |
+| tcs           |
++---------------+
+
+
+QUERY 7 : FIND THE STUDENT NAME WHO JOINED TRAINING IN 1-1-2019 AS WELL AS IN 1-1-2021
+
+mysql> select s_name from student where t_id in(select t_id from training where t_year = 2019 or t_year = 2021);
++---------+
+| s_name  |
++---------+
+| adi     |
+| pavan   |
+| sumit   |
+| amey    |
+| darshan |
+| om      |
++---------+
+
+QUERY 8 : FIND THE STUDENT NAME HAVING MAXIMUM CGPA SCORE AND NAMES OF STUDENT HAVING CGPA SCORE BETWEEN 7 TO 9
+
+mysql> select s_name from student where cgpa = (select max(cgpa) from student) or (cgpa between 7 and 9);
++---------+
+| s_name  |
++---------+
+| adi     |
+| amey    |
+| darshan |
+| om      |
++---------+
+
+QUERY 9 : DISPLAY ALL STUDENTS NAME WITH T_ID WITH DECRESING ORDER OF FEES
+
+mysql> select s_name,t_id,(select t_fee from training where t_id = student.t_id) as t_fee from student order by t_fee desc;
++---------+------+-------+
+| s_name  | t_id | t_fee |
++---------+------+-------+
+| adi     |    2 |  1150 |
+| sumit   |    2 |  1150 |
+| om      |    2 |  1150 |
+| darshan |    1 |   863 |
+| mayur   |    3 |   690 |
+| pavan   |    4 |   633 |
+| amey    |    4 |   633 |
++---------+------+-------+
+
+QUERY 10 : DISPLAY PCOMANY NAME, S NAME, LOCATION AND PACKAGE WITH PACKAGE 20K,40K,50K
+
+mysql> select p.pcompany_name,s.s_name,p.location,p.package from student s,placement_drive p where s.drive_id = p.drive_id and package in (30000,40000,50000);
++---------------+---------+----------+---------+
+| pcompany_name | s_name  | location | package |
++---------------+---------+----------+---------+
+| amazon        | adi     | mumbai   |   30000 |
+| meta          | pavan   | satara   |   50000 |
+| tcs           | sumit   | mumbai   |   40000 |
+| meta          | darshan | satara   |   50000 |
++---------------+---------+----------+---------+
+
+
+
+mysql> create or replace view comp_stud as select s_name,cgpa,s_branch,s_id from student where s_branch = 'cs' and cgpa>9;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select *from comp_stud;
++--------+------+----------+------+
+| s_name | cgpa | s_branch | s_id |
++--------+------+----------+------+
+| mayur  |  9.2 | cs       |    3 |
+| pavan  |  9.1 | cs       |    4 |
+| sumit  |  9.2 | cs       |    6 |
++--------+------+----------+------+
+
+
+mysql> create index ind_name on student(s_name);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show index from student;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| student |          0 | PRIMARY  |            1 | s_id        | A         |           7 |     NULL | NULL   |      | BTREE      |         |               |
+| student |          1 | drive_id |            1 | drive_id    | A         |           7 |     NULL | NULL   | YES  | BTREE      |         |               |
+| student |          1 | t_id     |            1 | t_id        | A         |           7 |     NULL | NULL   | YES  | BTREE      |         |               |
+| student |          1 | ind_name |            1 | s_name      | A         |           7 |     NULL | NULL   | YES  | BTREE      |         |               |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+
+
+
+
+
+mysql> create table incrementTable(roll_no int auto_increment primary key,s_name varchar(10));
+
+mysql> insert into incrementTable (s_name) values('sumit'),('vibhav'),('mayur'),('pavan');
+
+mysql> select *from incrementTable;
++---------+--------+
+| roll_no | s_name |
++---------+--------+
+|       1 | sumit  |
+|       2 | vibhav |
+|       3 | mayur  |
+|       4 | pavan  |
++---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table incrementTable auto_increment = 6;
+
+mysql> insert into incrementTable (s_name) values('anmol'),('shaun'),('aahan'),('amey');
+
+mysql> select *from incrementTable;
++---------+--------+
+| roll_no | s_name |
++---------+--------+
+|       1 | sumit  |
+|       2 | vibhav |
+|       3 | mayur  |
+|       4 | pavan  |
+|       6 | anmol  |
+|       7 | shaun  |
+|       8 | aahan  |
+|       9 | amey   |
++---------+--------+

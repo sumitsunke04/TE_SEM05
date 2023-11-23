@@ -1,0 +1,1045 @@
+************************************************CREATING DATABASE AND COLLECTION***************************************************************
+
+test> use customerOrder
+switched to db customerOrder
+customerOrder> show collections
+
+customerOrder> db.createCollection("customer")
+{ ok: 1 }
+
+*********************************************************INSERTING DATA*********************************************************************************************
+
+customerOrder> db.customers.insertOne({name:"Sumit Sunke",email:"sumit@gmail.com",contact:9011099001,age:21,address:{city:"Kolhapur",zip:416108},interestCategories:["Mobile","Laptop","Shirts","Watch"],orders:[{ordID:1,prodName:"Mobile",quantity:1,price:15000}]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("653d02bb8017e404b2476a30")
+}
+
+
+*********************************************************INSERTING MULTIPLE DOCUMENTS AT A TIME**********************************************************************************
+
+customerOrder> db.customers.insertMany([{name:"Rushi Mane",email:"rushi@yahoo.com",contact:9879878765,age:20,address:{city:"baramati",zip:413133},interestCategories:["Bike","Mobile","Watch"],orders:[{ordID:2,prodName:"Watch",quantity:1,price:350},{ordID:3,prodName:"Belt",quantity:2,price:150}]},{name:"Mahesh Bhosale",email:"mahesh@gmail.com",contact:3213132134,age:21,address:{city:"Kolhapur",zip:416101},interestCategories:["Laptop","Mobile","Book"],orders:[{ordID:4,prodName:"Shirt",quantity:3,price:550}]}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("653d09458017e404b2476a31"),
+    '1': ObjectId("653d09458017e404b2476a32")
+  }
+}
+
+customerOrder> db.customers.insertMany([{ name: "Pavan Thorat", email: "pavan@gmail.com", contact: 9879435335, age: 21, address: { city: "sinnar", zip: 404115 }, interestCategories: ["Movies", "Mobile", "Shirts"], orders: [{ ordID: 4, prodName: "Movies", quantity: 1, price: 450 }, { ordID: 3, prodName: "Shirt", quantity: 2, price: 190 }] }, { name: "Abhishek Bhosale", email: "abhi@gmail.com", contact: 32131343234, age: 21, address: { city: "Kolhapur", zip: 416101 }, interestCategories: ["Laptop", "Mobile", "Food"], orders: [{ ordID: 4, prodName: "mobile", quantity: 1, price: 15550 }] }])
+
+
+
+*********************************************************************************DISPLAYING DATA**************************************************************************
+
+customerOrder> db.customers.find().pretty()
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+
+
+
+********************************************************************DISPLAYING DATA USING ARITHMETIC OPERATORS********************************************************************
+
+
+customerOrder> db.customers.find({age:{$gt:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$gte:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$eq:20}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$ne:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$lt:21}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$lte:20}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$in:[20,21]}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$nin:[20]}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$nin:[20,21]}})
+
+
+*****************************************************DISPLAYING DATA USING LOGICAL OPERATORS******************************************************************
+
+
+customerOrder> db.customers.find({age:{$gt:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$gte:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$eq:20}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$ne:20}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$lt:21}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$lte:20}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  }
+]
+customerOrder> db.customers.find({age:{$in:[20,21]}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({age:{$nin:[20]}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+
+
+customerOrder> db.customers.find({$and:[{age:21,name:"Pavan Thorat"}]})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  }
+]
+
+
+customerOrder> db.customers.find({$or:[{age: 21}, {name: "Pavan Thorat"}]})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+
+customerOrder> db.customers.find({$and : [{age:{$gt:20}},{"address.city":"Kolhapur"}]},{_id:0, name:1})
+[
+  { name: 'Sumit Sunke' },
+  { name: 'Mahesh Bhosale' },
+  { name: 'Abhishek Bhosale' }
+]
+customerOrder> db.customers.find({$or:[{name:"Sumit Sunke"},{name:"Pavan Thorat"}]})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 21,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  }
+]
+customerOrder> db.customers.find({$or:[{age:{$lt:21}},{"address.city":"Kolhpaur"}]},{_id:0,name:1})
+[ { name: 'Rushi Mane' } ]
+customerOrder> db.customers.find({$or:[{age:{$eq:21}},{"address.city":"Kolhpaur"}]},{_id:0,name:1})
+[
+  { name: 'Sumit Sunke' },
+  { name: 'Mahesh Bhosale' },
+  { name: 'Pavan Thorat' },
+  { name: 'Abhishek Bhosale' }
+]
+
+
+customerOrder> db.customers.find({$and:[{age:{$lt:21},"address.city":"baramati"}]},{_id:0,name:1})
+[ { name: 'Rushi Mane' } ]
+customerOrder>
+
+
+
+
+***********************************************************************************Upsert and Multi**************************************************************
+
+customerOrder> db.customers.update({name:"Sumit Sunke"},{$set:{age:20}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.customers.find({name:"Sumit Sunke"},{_id:0,name:1,age:1})
+[ { name: 'Sumit Sunke', age: 20 } ]
+customerOrder> db.customers.update({"address.city":"Kolhapur"},{$set:{"address.city":"Kop"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.customers.find({name:"Sumit Sunke"},{_id:0,name:1,age:1,"address.city":1})
+[ { name: 'Sumit Sunke', age: 20, address: { city: 'Kop' } } ]
+customerOrder> db.customers.find({name:"Mahesh Bhosale"},{_id:0,name:1,age:1,"address.city":1})
+[ { name: 'Mahesh Bhosale', age: 21, address: { city: 'Kolhapur' } } ]
+customerOrder> db.customers.find({name:"Sumit Sunke"},{_id:0,name:1,age:1,"address.city":1},{multi:true})
+[ { name: 'Sumit Sunke', age: 20, address: { city: 'Kop' } } ]
+customerOrder> db.customers.update({"address.city":"Kolhapur"},{$set:{"address.city":"Kop"}},{multi:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+customerOrder> db.customers.find({"address.city":"Kop"},{_id:0,name:1,age:1,"address.city":1})
+[
+  { name: 'Sumit Sunke', age: 20, address: { city: 'Kop' } },
+  { name: 'Mahesh Bhosale', age: 21, address: { city: 'Kop' } },
+  { name: 'Abhishek Bhosale', age: 21, address: { city: 'Kop' } }
+]
+customerOrder> db.customers.update({"address.city":"Kolhapur"},{$set:{"address.city":"Kop",name:"Not existing account"}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: ObjectId("653f9d765fd8f0dec2ccc356"),
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+
+customerOrder> db.customers.find()
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 20,
+    address: { city: 'Kop', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  },
+  {
+    _id: ObjectId("653f9d765fd8f0dec2ccc356"),
+    address: { city: 'Kop' },
+    name: 'Not existing account'
+  }
+]
+customerOrder>
+
+
+***********************************************all*******************************************************
+
+
+customerOrder> db.customers.find({interestCategories:{$all:["Mobile","Watch"]}},{_id:0,name:1})
+[ { name: 'Sumit Sunke' }, { name: 'Rushi Mane' } ]
+
+**********************************************size*************************************************************
+customerOrder> db.customers.find({interestCategories:{$size:3}},{_id:0,name:1})
+[
+  { name: 'Rushi Mane' },
+  { name: 'Mahesh Bhosale' },
+  { name: 'Pavan Thorat' },
+  { name: 'Abhishek Bhosale' }
+]
+
+*************************************slice*********************************************************************
+
+  
+customerOrder> db.customers.find({name:"Sumit Sunke"},{interestCategories:{$slice:2}})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 20,
+    address: { city: 'Kop', zip: 416108 },
+    interestCategories: [
+
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  }
+]
+
+
+*************************************************PUSH****************************************************
+customerOrder> db.customers.update({name:"Sumit Sunke"},{$push:{interestCategories:"Books"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.customers.find({name:"Sumit Sunke"},{interestCategories:1})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch', 'Books' ]
+  }
+]
+
+
+*****************************************************************************UNWIND************************************************************
+customerOrder> db.customers.aggregate({$match:{name:"Abhishek Bhosale"}},{$unwind:"$interestCategories"})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: 'Laptop',
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: 'Mobile',
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: 'Food',
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({name:"Abhishek Bhosale"},{_id:0,name:1,interestCategories:1})
+[
+  {
+    name: 'Abhishek Bhosale',
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ]
+  }
+]
+customerOrder>
+
+
+

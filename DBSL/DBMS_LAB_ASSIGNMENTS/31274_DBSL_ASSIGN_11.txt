@@ -1,0 +1,18 @@
+
+
+
+
+customerOrder> var mapfunc = function(){emit(this.age,this.address.zip)}
+
+customerOrder> var reducefunc = function(key,values){return Array.sum(values)}
+
+customerOrder> db.customers.mapReduce(mapfunc,reducefunc,{'out':'myout'})
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://docs.mongodb.com/manual/core/map-reduce for details.
+{ result: 'myout', ok: 1 }
+customerOrder> db.myout.find()
+[
+  { _id: 20, value: 829241 },
+  { _id: 21, value: 1236317 }
+]
+customerOrder>

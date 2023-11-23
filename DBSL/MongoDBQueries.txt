@@ -1,0 +1,1507 @@
+Microsoft Windows [Version 10.0.22621.2428]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP>mongosh
+Current Mongosh Log ID: 653b66a050809fef39a08d5f
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          6.0.5
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+------
+   The server generated these startup warnings when booting
+   2023-10-17T16:55:01.109+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show databases
+admin                 40.00 KiB
+config                76.00 KiB
+employeeRegistration  16.00 KiB
+local                 80.00 KiB
+todoListDB             8.00 KiB
+test> show collections
+
+test> use admin
+switched to db admin
+admin> show collections
+system.version
+admin> use test
+switched to db test
+test> use todoListDB
+switched to db todoListDB
+todoListDB> show collections
+todo
+todoListDB> use employeeRegistration
+switched to db employeeRegistration
+employeeRegistration> show collections
+registers
+employeeRegistration> db.registers.find()
+
+employeeRegistration> exit
+
+C:\Users\HP>mongosh "mongodb+srv://cluster0.avkfdej.mongodb.net/" --apiVersion 1 --username sumitmongodb
+Enter password: ************
+Current Mongosh Log ID: 653b68756a826deb9e0384a9
+Connecting to:          mongodb+srv://<credentials>@cluster0.avkfdej.mongodb.net/?appName=mongosh+2.0.2
+Using MongoDB:          6.0.11 (API Version 1)
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+Atlas atlas-ykxfqd-shard-0 [primary] test> show databases;
+RecepieProject        8.00 KiB
+mycontacts-backend  180.00 KiB
+admin               368.00 KiB
+local                 6.97 GiB
+Atlas atlas-ykxfqd-shard-0 [primary] test> use mycontacts-backend
+switched to db mycontacts-backend
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> show collections
+contacts
+users
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> db.contacts.find()
+[
+  {
+    _id: ObjectId("64cf8130b69eed8124474eb0"),
+    name: 'aryan l goswami',
+    email: 'aryan@gmail.com',
+    phone: '678910',
+    createdAt: ISODate("2023-08-06T11:17:04.310Z"),
+    updatedAt: ISODate("2023-08-06T11:22:48.486Z"),
+    __v: 0
+  },
+  {
+    _id: ObjectId("64d0d54e65eda9713d2140f7"),
+    name: 'sumit',
+    email: 'sumit@gmail.com',
+    phone: '345',
+    createdAt: ISODate("2023-08-07T11:28:14.336Z"),
+    updatedAt: ISODate("2023-08-07T11:28:14.336Z"),
+    __v: 0
+  },
+  {
+    _id: ObjectId("64d75302513c435210840327"),
+    user_id: ObjectId("64d0edebb2805dfa2badfaa1"),
+    name: 'animesh jain',
+    email: 'animesh@gmail.com',
+    phone: '11111',
+    createdAt: ISODate("2023-08-12T09:38:10.054Z"),
+    updatedAt: ISODate("2023-08-12T09:38:10.054Z"),
+    __v: 0
+  },
+  {
+    _id: ObjectId("64d7588b513c435210840332"),
+    user_id: ObjectId("64d75522513c43521084032b"),
+    name: 'rushi',
+    email: 'rushi@gmail.com',
+    phone: '12345',
+    createdAt: ISODate("2023-08-12T10:01:47.428Z"),
+    updatedAt: ISODate("2023-08-12T10:01:47.428Z"),
+    __v: 0
+  }
+]
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> db.contacts.find({phone: 1})
+
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> db.contacts.find({},{phone: 1})
+[
+  { _id: ObjectId("64cf8130b69eed8124474eb0"), phone: '678910' },
+  { _id: ObjectId("64d0d54e65eda9713d2140f7"), phone: '345' },
+  { _id: ObjectId("64d75302513c435210840327"), phone: '11111' },
+  { _id: ObjectId("64d7588b513c435210840332"), phone: '12345' }
+]
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> db.contacts.find({},{id:0,phone: 1})
+MongoServerError: Cannot do inclusion on field phone in exclusion projection
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> db.contacts.find({},{_id:0,phone: 1})
+[
+  { phone: '678910' },
+  { phone: '345' },
+  { phone: '11111' },
+  { phone: '12345' }
+]
+Atlas atlas-ykxfqd-shard-0 [primary] mycontacts-backend> exit
+
+C:\Users\HP>mongosh
+Current Mongosh Log ID: 653ba00aa87c1859977a032c
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          6.0.5
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-10-17T16:55:01.109+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show databases;
+admin                 40.00 KiB
+config                60.00 KiB
+employeeRegistration  16.00 KiB
+local                 80.00 KiB
+todoListDB             8.00 KiB
+test> use PracticeDatabase;
+switched to db PracticeDatabase
+PracticeDatabase> show collections
+
+PracticeDatabase> db.createCollection("firstCollection")
+{ ok: 1 }
+PracticeDatabase> show collections
+firstCollection
+PracticeDatabase> db.firstCollection.find()
+
+PracticeDatabase> db.firstCollection.insert({name:"sumit",roll:21})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653ba102a87c1859977a032d") }
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 21
+  }
+]
+PracticeDatabase> db.firstCollection.update({name:"sumit"},{roll:74})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+MongoInvalidArgumentError: Update document requires atomic operators
+PracticeDatabase> db.firstCollection.updateOne({{name:"sumit"},{roll:74}})
+Uncaught:
+SyntaxError: Unexpected token (1:30)
+
+> 1 | db.firstCollection.updateOne({{name:"sumit"},{roll:74}})
+    |                               ^
+  2 |
+
+PracticeDatabase> db.firstCollection.updateOne({name:"sumit"},{roll:74})
+MongoInvalidArgumentError: Update document requires atomic operators
+PracticeDatabase> db.firstCollection.updateOne({name:"sumit"},{$set :{roll:74}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74
+  }
+]
+PracticeDatabase> db.firstCollection.insert({name:"Pavan",roll:23,city:"sinnar"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653ba20ca87c1859977a032e") }
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar'
+  }
+]
+PracticeDatabase> db.firstCollection.updateOne({name:"sumit"},{$set :{city:"Kolhapur"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar'
+  }
+]
+PracticeDatabase> db.firstCollection.updateMany({},{$set :{hobby:"Cricket"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  }
+]
+PracticeDatabase> db.firstCollection.insert({name:"Rohit",roll:21,city:"nagpur",hobby:["Cricket","CP"]})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653ba3eda87c1859977a032f") }
+}
+PracticeDatabase> db.firstCollection.find({name:"rohit"})
+
+PracticeDatabase> db.firstCollection.find({name:"Rohit"})
+[
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  }
+PracticeDatabase> db.firstCollection.insert({name:"Abhishek",roll:9,city:"Kolhapur",hobby:["Developing web apps","System Design","Backend Developer"],Technologies:[{frontend:{Tech:"React",Rate:4}}]})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653baba3a87c1859977a0330") }
+}
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  }
+]
+PracticeDatabase> db.firstCollection.find().pretty()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  }
+]
+PracticeDatabase> db.firstCollection.insert({name:"Maheshwar",roll:9,city:"Kolhapur",hobby:["Exploring Geopolitics","Web apps","FrontEnd Developer"],Technologies:[{frontend:{Tech:"React",Rate:3},{backend:{Tech:"Django",Rate:5},{AI:{}}}}]})
+Uncaught:
+SyntaxError: Unexpected token (1:177)
+
+> 1 | db.firstCollection.insert({name:"Maheshwar",roll:9,city:"Kolhapur",hobby:["Exploring Geopolitics","Web apps","FrontEnd Developer"],Technologies:[{frontend:{Tech:"React",Rate:3},{backend:{Tech:"Django",Rate:5},{AI:{}}}}]})
+    |
+                           ^
+  2 |
+
+PracticeDatabase> db.firstCollection.insert({name:"Maheshwar",roll:9,city:"Kolhapur",hobby:["Exploring Geopolitics","Web apps","FrontEnd Developer"],Technologies:[{frontend:{Tech:"React",Rate:3},backend:{Tech:"Django",Rate:5}}}]})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:208)
+
+> 1 | db.firstCollection.insert({name:"Maheshwar",roll:9,city:"Kolhapur",hobby:["Exploring Geopolitics","Web apps","FrontEnd Developer"],Technologies:[{frontend:{Tech:"React",Rate:3},backend:{Tech:"Django",Rate:5}}}]})
+    |
+                                                          ^
+  2 |
+
+PracticeDatabase> db.firstCollection.insert({name:"Maheshwar",roll:9,city:"Kolhapur",hobby:["Exploring Geopolitics","Web apps","FrontEnd Developer"],Technologies:[{frontend:{Tech:"React",Rate:3},backend:{Tech:"Django",Rate:5}}]})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bac9ea87c1859977a0331") }
+}
+PracticeDatabase> db.firstCollection.find().pretty()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({city:"Kolhapur"}).pretty()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({Technologies.frontend:"React"}).pretty()
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:37)
+
+> 1 | db.firstCollection.find({Technologies.frontend:"React"}).pretty()
+    |                                      ^
+  2 |
+
+PracticeDatabase> db.firstCollection.find({Technologies.frontend.Tech:"React"}).pretty()
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:37)
+
+> 1 | db.firstCollection.find({Technologies.frontend.Tech:"React"}).pretty()
+    |                                      ^
+  2 |
+
+PracticeDatabase> db.firstCollection.find({"Technologies.frontend.Tech":"React"}).pretty()
+[
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"},{Technologies:1})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"},{Technologies:0})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"},{Technologies:1},{city:1})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"},{Technologies:1,city:1})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    city: 'Kolhapur',
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.update({name:"Maheshwar"},$unset:{city:1})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.firstCollection.update({name:"Maheshwar"},$unset:{city:1})
+    |                                                    ^
+  2 |
+
+PracticeDatabase> db.firstCollection.update({name:"Maheshwar"},$unset:{city:1}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.firstCollection.update({name:"Maheshwar"},$unset:{city:1}})
+    |                                                    ^
+  2 |
+
+PracticeDatabase> db.firstCollection.update({name:"Maheshwar"},{$unset:{city:1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.remove({name:"pavan"})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 0 }
+PracticeDatabase> db.firstCollection.remove({"name":"pavan"})
+{ acknowledged: true, deletedCount: 0 }
+PracticeDatabase> db.firstCollection.find({name:"pavan"})
+
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find(name:"Pavan")
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:28)
+
+> 1 | db.firstCollection.find(name:"Pavan")
+    |                             ^
+  2 |
+
+PracticeDatabase> db.firstCollection.find({name:"Pavan"})
+[
+  {
+    _id: ObjectId("653ba20ca87c1859977a032e"),
+    name: 'Pavan',
+    roll: 23,
+    city: 'sinnar',
+    hobby: 'Cricket'
+  }
+]
+PracticeDatabase> db.firstCollection.remove({"name":"Pavan"})
+{ acknowledged: true, deletedCount: 1 }
+PracticeDatabase> db.firstCollection.find({"name":"Pavan"})
+
+PracticeDatabase> db.firstCollection.find({"name":"Abhishek"})
+[
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  }
+]
+PracticeDatabase> db.firstCollection.insert({name:"rushi",roll:6})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bbad5a87c1859977a0332") }
+}
+PracticeDatabase> db.firstCollection.insert({name:"MCaryan",roll:6})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bbae2a87c1859977a0333") }
+}
+PracticeDatabase> db.firstCollection.insert({name:"nishant",roll:3})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bbaeda87c1859977a0334") }
+}
+PracticeDatabase> db.firstCollection.deleteOne()
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 0 (Collection.deleteOne)
+PracticeDatabase> db.firstCollection.deleteOne({roll:6})
+{ acknowledged: true, deletedCount: 1 }
+PracticeDatabase> db.firstCollection.find()
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  {
+    _id: ObjectId("653bbae2a87c1859977a0333"),
+    name: 'MCaryan',
+    roll: 6
+  },
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  }
+]
+PracticeDatabase> db.firstCollection.findOnfindOnedeleteOnefindOnedeleteOnefindOnedeleteOnedeleteOne({roll:6})
+TypeError: db.firstCollection.findOnfindOnedeleteOnefindOnedeleteOnefindOnedeleteOnedeleteOne is not a function
+PracticeDatabase> db.firstCollection.findOneAndDelete({roll:6})
+{ _id: ObjectId("653bbae2a87c1859977a0333"), name: 'MCaryan', roll: 6 }
+PracticeDatabase> db.firstCollection.insert({name:"MCaryan",roll:6})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bbfb2a87c1859977a0335") }
+}
+PracticeDatabase> db.firstCollection.insert({name:"rushi",roll:6})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("653bbfbda87c1859977a0336") }
+}
+PracticeDatabase> db.firstCollection.updateOne({roll:6},{$set:{name:"RM"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({roll:6})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'RM', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'rushi', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.updateMany({roll:6},{$set:{name:"RM"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({roll:6})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'RM', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.findOneAndUpdate({roll:6},{$set:{name:"rushi"}})
+{ _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'RM', roll: 6 }
+PracticeDatabase> db.firstCollection.find({roll:6})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'rushi', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.findOneAndModify({roll:6},{$set:{name:"aryan"}})
+TypeError: db.firstCollection.findOneAndModify is not a function
+PracticeDatabase> db.firstCollection.findAndModify({roll:6},{$set:{name:"aryan"}})
+MongoshInvalidInputError: [COMMON-10001] Missing required property: "query"
+PracticeDatabase> db.firstCollection.findAndModify(query:{roll:6},{$set:{name:"aryan"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:38)
+
+> 1 | db.firstCollection.findAndModify(query:{roll:6},{$set:{name:"aryan"}})
+    |                                       ^
+  2 |
+
+PracticeDatabase> db.firstCollection.findAndModify(query:{roll:6},update:{$set:{name:"aryan"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:38)
+
+> 1 | db.firstCollection.findAndModify(query:{roll:6},update:{$set:{name:"aryan"}})
+    |                                       ^
+  2 |
+
+PracticeDatabase> db.firstCollection.findAndModify({query:{roll:6},update:{$set:{name:"aryan"}}})
+{ _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'rushi', roll: 6 }
+PracticeDatabase> db.firstCollection.find({roll:6})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$lt:6}})
+[
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$lte:6}})
+[
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  },
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$gt:6}})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$eq:6}})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$neq:6}})
+MongoServerError: unknown operator: $neq
+PracticeDatabase> db.firstCollection.find({roll:{$ne:6}})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  }
+]
+PracticeDatabase> db.firstCollection.find({$and : [{roll:6},{name:"aryan"}]})
+[
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.find({$or :[{name:"sumit"},{name:"Maheshwar"}]})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$in:[3,9,21]}})
+[
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  }
+]
+PracticeDatabase> db.firstCollection.find({roll:{$nin:[3,9,21]}})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.find().sort({roll:1})
+[
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  },
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  }
+]
+PracticeDatabase> db.firstCollection.find().sort({roll:-1})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 },
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  }
+]
+PracticeDatabase> db.firstCollection.find().limit(2)
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket'
+  },
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  }
+]
+PracticeDatabase> db.firstCollection.find().count()
+7
+PracticeDatabase> db.firstCollection.find().skip()
+MongoInvalidArgumentError: Operation "skip" requires an integer
+PracticeDatabase> db.firstCollection.find().skip(1)
+[
+  {
+    _id: ObjectId("653ba3eda87c1859977a032f"),
+    name: 'Rohit',
+    roll: 21,
+    city: 'nagpur',
+    hobby: [ 'Cricket', 'CP' ]
+  },
+  {
+    _id: ObjectId("653baba3a87c1859977a0330"),
+    name: 'Abhishek',
+    roll: 9,
+    city: 'Kolhapur',
+    hobby: [ 'Developing web apps', 'System Design', 'Backend Developer' ],
+    Technologies: [ { frontend: { Tech: 'React', Rate: 4 } } ]
+  },
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'Django', Rate: 5 }
+      }
+    ]
+  },
+  {
+    _id: ObjectId("653bbaeda87c1859977a0334"),
+    name: 'nishant',
+    roll: 3
+  },
+  { _id: ObjectId("653bbfb2a87c1859977a0335"), name: 'aryan', roll: 6 },
+  { _id: ObjectId("653bbfbda87c1859977a0336"), name: 'RM', roll: 6 }
+]
+PracticeDatabase> db.firstCollection.findAndUpdate({name:"Maheshwar"},{$set:{"Technologies.backend":"nodeJS"}})
+TypeError: db.firstCollection.findAndUpdate is not a function
+PracticeDatabase> db.firstCollection.findOneAndUpdate({name:"Maheshwar"},{$set:{"Technologies.backend":"nodeJS"}})
+MongoServerError: Plan executor error during findAndModify :: caused by :: Cannot create field 'backend' in element {Technologies: [ { frontend: { Tech: "React", Rate: 3 }, backend: { Tech: "Django", Rate: 5 } } ]}
+PracticeDatabase> db.firstCollection.findOneAndUpdate({name:"Maheshwar"},{$set:{"Technologies.backend.Tech":"nodeJS"}})
+MongoServerError: Plan executor error during findAndModify :: caused by :: Cannot create field 'backend' in element {Technologies: [ { frontend: { Tech: "React", Rate: 3 }, backend: { Tech: "Django", Rate: 5 } } ]}
+PracticeDatabase> db.firstCollection.findOneAndUpdate(
+...   { name: "Maheshwar" },
+...   { $set: { "Technologies.$[elem].backend.Tech": "nodeJS" } },
+...   { arrayFilters: [{ "elem.frontend.Tech": "React" }] }
+... )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'Django', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "nodeJS" } }, { arrayFilters: [{ "elem.frontend.Tech": "React" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "nodeJS" } }, { arrayFilters: [{ "elem.frontend.Tech": "React" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "nodeJS" } }, { arrayFilters: [{ "elem.fronten.Tech": "React" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "expressJS" } }, { arrayFilters: [{ "elem.fronten.Tech": "React" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "expressJS" } }, { arrayFilters: [{ "elem.backend.Tech": "nodeJs" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "expressJS" } }, { arrayFilters: [{ "elem.backend.Tech": "nodeJS" }] } )
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'nodeJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "expressJS" } }, { arrayFilters: [{ "elem.backend.Tech": "nodeJS" }] } );
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'expressJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "spring" } }, { arrayFilters: [{ "elem.backend.Tech": "expressJS" }] } );
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'expressJS', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "spring" } }, { arrayFilters: [{ "elem.backend.Tech": "expressJS" }] } );
+{
+  _id: ObjectId("653bac9ea87c1859977a0331"),
+  name: 'Maheshwar',
+  roll: 9,
+  hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+  Technologies: [
+    {
+      frontend: { Tech: 'React', Rate: 3 },
+      backend: { Tech: 'spring', Rate: 5 }
+    }
+  ]
+}
+PracticeDatabase> db.firstCollection.findOneAndUpdate( { name: "Maheshwar" }, { $set: { "Technologies.$[elem].backend.Tech": "springboot" } }, { arrayFilters: [{ "elem.backend.Tech": "spring" }] } ); db.firstCollection.find({name:"Maheshwar"},{Technologies:1});
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase>
+
+PracticeDatabase> db.firstColletion.find({name:"Maheshwar"})
+
+PracticeDatabase> db.firstColletion.find({name:"Maheshwar"})
+
+PracticeDatabase> db.firstColletion.find()
+
+PracticeDatabase> show collections
+firstCollection
+PracticeDatabase> db.firstCollection({name:"Maheshwar"})
+TypeError: db.firstCollection is not a function
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.updateOne({name:"Maheshwar"},{$push:{hobby:"CP"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer', 'CP' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.updateOne({name:"Maheshwar"},{$push:{Technologies:{newSkill:"DontKnow"}]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:90)
+
+> 1 | db.firstCollection.updateOne({name:"Maheshwar"},{$push:{Technologies:{newSkill:"DontKnow"}]}})
+    |                                                                                           ^
+  2 |
+
+PracticeDatabase> db.firstCollection.updateOne({name:"Maheshwar"},{$push:{Technologies:{newSkill:"DontKnow"}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer', 'CP' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      },
+      { newSkill: 'DontKnow' }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.updateOne({name:"Maheshwar"},{$pull:{Technologies:{newSkill:"DontKnow"}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [ 'Exploring Geopolitics', 'Web apps', 'FrontEnd Developer', 'CP' ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.updateOne({name:"Maheshwar"},{$push:{hobby:{$each:["hobby1", "hobby2"]}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [
+      'Exploring Geopolitics',
+      'Web apps',
+      'FrontEnd Developer',
+      'CP',
+      'hobby1',
+      'hobby2'
+    ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ]
+  }
+]
+PracticeDatabase> db.firstCollection.update({name:"Maheshwar"},{$set:{cgpa:9}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"Maheshwar"})
+[
+  {
+    _id: ObjectId("653bac9ea87c1859977a0331"),
+    name: 'Maheshwar',
+    roll: 9,
+    hobby: [
+      'Exploring Geopolitics',
+      'Web apps',
+      'FrontEnd Developer',
+      'CP',
+      'hobby1',
+      'hobby2'
+    ],
+    Technologies: [
+      {
+        frontend: { Tech: 'React', Rate: 3 },
+        backend: { Tech: 'springboot', Rate: 5 }
+      }
+    ],
+    cgpa: 9
+  }
+]
+PracticeDatabase> db.firstCollection.update({name:"sumit"},{$set:{cgpa:9}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"sumit"})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket',
+    cgpa: 9
+  }
+]
+PracticeDatabase> db.firstCollection.update({name:"niraj"},{$set:{cgpa:9}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: ObjectId("653cf2f05fd8f0dec2cc3b11"),
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+PracticeDatabase> db.firstCollection.find({name:"niraj"})
+[
+  { _id: ObjectId("653cf2f05fd8f0dec2cc3b11"), name: 'niraj', cgpa: 9 }
+]
+PracticeDatabase> db.firstCollection.update({name:"sumit"},{$set:{cgpa:9.2}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+PracticeDatabase> db.firstCollection.find({name:"sumit"})
+[
+  {
+    _id: ObjectId("653ba102a87c1859977a032d"),
+    name: 'sumit',
+    roll: 74,
+    city: 'Kolhapur',
+    hobby: 'Cricket',
+    cgpa: 9.2
+  }
+]
+PracticeDatabase>

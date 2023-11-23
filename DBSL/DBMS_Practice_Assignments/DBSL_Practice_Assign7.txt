@@ -1,0 +1,151 @@
+mysql> create database library;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> use library;
+Database changed
+mysql> create table librarydata(b_id int,bookaname varchar(20),dateodissue date);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table library_audit(b_id int,bookname varchar(20),dateofissue date);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> alter table librarydata change column dateodissue to dateofissue;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to dateofissue' at line 1
+mysql> alter table librarydata rename column dateodissue to dateofissue;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc library;
+ERROR 1146 (42S02): Table 'library.library' doesn't exist
+mysql> desc librarydata;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| b_id        | int         | YES  |     | NULL    |       |
+| bookaname   | varchar(20) | YES  |     | NULL    |       |
+| dateofissue | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.04 sec)
+
+mysql> desc library_audit;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| b_id        | int         | YES  |     | NULL    |       |
+| bookname    | varchar(20) | YES  |     | NULL    |       |
+| dateofissue | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into librarydata values(1,'CNS','2023/05/12');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into librarydata values(2,'DBMS','2023/08/30');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into librarydata values(3,'SPOS','2023/02/22');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into librarydata values(3,'TOC','2023/03/10');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select *from librarydata;
++------+-----------+-------------+
+| b_id | bookaname | dateofissue |
++------+-----------+-------------+
+|    1 | CNS       | 2023-05-12  |
+|    2 | DBMS      | 2023-08-30  |
+|    3 | SPOS      | 2023-02-22  |
+|    3 | TOC       | 2023-03-10  |
++------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> create trigger librarydatachanges before update on librarydata for each row
+    -> begin
+    -> insert into library_audit values(old.b_id,old.bookname,old.dateofissue);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> delimiter //
+mysql> insert into library_audit values(old.b_id,old.bookname,old.dateofissue);
+    -> end;//
+ERROR 1054 (42S22): Unknown column 'old.b_id' in 'field list'
+mysql> create trigger librarydatachanges before update on librarydata for each row
+    -> begin
+    -> insert into library_audit values(OLD.b_id,OLD.bookname,OLD.dateofissue);
+    -> end;
+    -> //
+ERROR 1054 (42S22): Unknown column 'bookname' in 'OLD'
+mysql> delimiter ;
+mysql> alter table library data rename column bookaname to bookname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rename column bookaname to bookname' at line 1
+mysql> alter table librarydata rename column bookaname to bookname;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> delimiter //
+mysql> create trigger librarydatachanges before update on librarydata for each row
+    -> begin
+    -> insert into library_audit values(old.b_id,old.bookname,old.dateofissue);
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> delimiter ;
+mysql> delimiter //
+mysql> create trigger librarydatachangesdel before delete on librarydata for each row
+    -> begin
+    -> insert into library_audit values(old.b_id,old.bookname,old.dateofissue);
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select *from librarydata;
++------+----------+-------------+
+| b_id | bookname | dateofissue |
++------+----------+-------------+
+|    1 | CNS      | 2023-05-12  |
+|    2 | DBMS     | 2023-08-30  |
+|    3 | SPOS     | 2023-02-22  |
+|    3 | TOC      | 2023-03-10  |
++------+----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select *from library_audit;
+Empty set (0.00 sec)
+
+mysql> update librarydata set dateofissue='2023/01/01' where b_id=1;
+Query OK, 1 row affected, 1 warning (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 1
+
+mysql> select *from librarydata;
++------+----------+-------------+
+| b_id | bookname | dateofissue |
++------+----------+-------------+
+|    1 | CNS      | 2023-01-01  |
+|    2 | DBMS     | 2023-08-30  |
+|    3 | SPOS     | 2023-02-22  |
+|    3 | TOC      | 2023-03-10  |
++------+----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select *from library_audit;
++------+----------+-------------+
+| b_id | bookname | dateofissue |
++------+----------+-------------+
+|    1 | CNS      | 2023-05-12  |
++------+----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> delete from librarydata where bookname = 'TOC';
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from library_audit;
++------+----------+-------------+
+| b_id | bookname | dateofissue |
++------+----------+-------------+
+|    1 | CNS      | 2023-05-12  |
+|    3 | TOC      | 2023-03-10  |
++------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>

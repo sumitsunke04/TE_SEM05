@@ -1,0 +1,39 @@
+customerOrder> var mapfunction=function(){emit(this.address.city,this.age)}
+
+customerOrder> var reducefunction=function(key,value){return Array.sum(value)}
+
+customerOrder> db.cstOrder.mapReduce(mapfunction,reducefunction,{'out':'mr1'})
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://docs.mongodb.com/manual/core/map-reduce for details.
+Uncaught:
+MongoServerError: MapReduce internal error :: caused by :: TypeError: this.address is undefined :
+@:1:13
+customerOrder> db.cstOrder.remove({name:"Niraj K"})
+{ acknowledged: true, deletedCount: 1 }
+customerOrder> db.cstOrder.mapReduce(mapfunction,reducefunction,{'out':'mr1'})
+{ result: 'mr1', ok: 1 }
+customerOrder> db.mr1.find()
+[
+  { _id: 'Sinnar', value: 27 },
+  { _id: 'Nashik', value: 31 },
+  { _id: 'Mumbai', value: 25 },
+  { _id: 'KOP', value: 83 }
+]
+customerOrder> db.cstOrder.mapReduce(mapfunction,reducefunction,{'out':'mr2',query:{age:{$gt:23}}})
+{ result: 'mr2', ok: 1 }
+customerOrder> db.mr2.find()
+[
+  { _id: 'Mumbai', value: 25 },
+  { _id: 'KOP', value: 41 },
+  { _id: 'Sinnar', value: 27 },
+  { _id: 'Nashik', value: 31 }
+]
+customerOrder>
+
+
+
+
+
+
+
+

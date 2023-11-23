@@ -1,0 +1,529 @@
+Microsoft Windows [Version 10.0.22621.2428]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 42
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| assign12db         |
+| assignments        |
+| cursorassignment   |
+| employeeproject    |
+| information_schema |
+| library            |
+| mysql              |
+| org                |
+| performance_schema |
+| resto              |
+| studentplacement   |
+| sys                |
+| temp               |
+| tree               |
++--------------------+
+14 rows in set (0.08 sec)
+
+mysql> use assignments
+Database changed
+mysql> show tables
+    -> ;
++-----------------------+
+| Tables_in_assignments |
++-----------------------+
+| borrower              |
+| circle                |
+| fine                  |
++-----------------------+
+3 rows in set (0.04 sec)
+
+mysql> create database assign2;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> use assign2;
+Database changed
+mysql> show tables
+    -> ;
+Empty set (0.00 sec)
+
+mysql> create table dept(deptID int primary key auto_increment,deptName varchar(20),deptLoc varchar(20));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc dept;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| deptID   | int         | NO   | PRI | NULL    | auto_increment |
+| deptName | varchar(20) | YES  |     | NULL    |                |
+| deptLoc  | varchar(20) | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.05 sec)
+
+mysql> create table project(projID int primary key, deptID int,projName varchar(20),projLoc varchar(20),projCost int,projYear int,foreign key(deptId) references dept(deptID));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc project;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| projID   | int         | NO   | PRI | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| projName | varchar(20) | YES  |     | NULL    |       |
+| projLoc  | varchar(20) | YES  |     | NULL    |       |
+| projCost | int         | YES  |     | NULL    |       |
+| projYear | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table employee(empID int,deptID int,fname varchar(10),lname varchar(10),empPos varchar(20),empSal int,joinDate date,foreign ket(deptID) references dept(deptID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ket(deptID) references dept(deptID))' at line 1
+mysql> create table employee(empID int,deptID int,fname varchar(10),lname varchar(10),empPos varchar(20),empSal int,joinDate date,foreign dept(deptID) references dept(deptID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept(deptID) references dept(deptID))' at line 1
+mysql> create table employee(empID int,deptID int,fname varchar(10),lname varchar(10),empPos varchar(20),empSal int,joinDate date,foreign key(deptID) references dept(deptID));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| empID    | int         | YES  |     | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| fname    | varchar(10) | YES  |     | NULL    |       |
+| lname    | varchar(10) | YES  |     | NULL    |       |
+| empPos   | varchar(20) | YES  |     | NULL    |       |
+| empSal   | int         | YES  |     | NULL    |       |
+| joinDate | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table employee add primary key(empID);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| empID    | int         | NO   | PRI | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| fname    | varchar(10) | YES  |     | NULL    |       |
+| lname    | varchar(10) | YES  |     | NULL    |       |
+| empPos   | varchar(20) | YES  |     | NULL    |       |
+| empSal   | int         | YES  |     | NULL    |       |
+| joinDate | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into dept values(1,"COMP","Baner");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into dept values(2,"IT","Katraj");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into dept values(3,"ENTC","Pune");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept values(3,"AIDS","Mumbai");
+ERROR 1062 (23000): Duplicate entry '3' for key 'dept.PRIMARY'
+mysql> insert into dept values(4,"AIDS","Mumbai");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from dept;
++--------+----------+---------+
+| deptID | deptName | deptLoc |
++--------+----------+---------+
+|      1 | COMP     | Baner   |
+|      2 | IT       | Katraj  |
+|      3 | ENTC     | Pune    |
+|      4 | AIDS     | Mumbai  |
++--------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employee drop foreign key deptID,add constraint deptID foreign key(deptID) references dept(deptID) ON DELETE CASCADE;
+ERROR 1091 (42000): Can't DROP 'deptID'; check that column/key exists
+mysql> alter table employee drop foreign key deptID,add constraint fk_deptID foreign key(deptID) references dept(deptID) ON DELETE CASCADE;
+ERROR 1091 (42000): Can't DROP 'deptID'; check that column/key exists
+mysql> alter table employee add constraint fk_deptID foreign key(deptID) references dept(deptID) ON DELETE CASCADE;
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table project add constraint fk_deptID foreign key(deptID) references dept(deptID) ON DELETE CASCADE;
+ERROR 1826 (HY000): Duplicate foreign key constraint name 'fk_deptID'
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| empID    | int         | NO   | PRI | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| fname    | varchar(10) | YES  |     | NULL    |       |
+| lname    | varchar(10) | YES  |     | NULL    |       |
+| empPos   | varchar(20) | YES  |     | NULL    |       |
+| empSal   | int         | YES  |     | NULL    |       |
+| joinDate | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table project add constraint fk_project_deptID foreign key(deptID) references dept(deptID) ON DELETE CASCADE;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| projID   | int         | NO   | PRI | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| projName | varchar(20) | YES  |     | NULL    |       |
+| projLoc  | varchar(20) | YES  |     | NULL    |       |
+| projCost | int         | YES  |     | NULL    |       |
+| projYear | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into employee values(1,1,'Sumit','Sunke','SDE',30000,'2023/12/01');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select *from employee;
++-------+--------+-------+-------+--------+--------+------------+
+| empID | deptID | fname | lname | empPos | empSal | joinDate   |
++-------+--------+-------+-------+--------+--------+------------+
+|     1 |      1 | Sumit | Sunke | SDE    |  30000 | 2023-12-01 |
++-------+--------+-------+-------+--------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee values(2,2,'Pavan','Thorat','Wev dev',35000,'2022/08/14');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into employee(empID,deptID,fname,lname,empPos,empSal,joinDate) values(2,2,'Pavan','Thorat','Wev dev',35000,'2022/08/14'),(3,3,'Hrishi','Tibile','SDE',25000,'2023/10/07');
+ERROR 1062 (23000): Duplicate entry '2' for key 'employee.PRIMARY'
+mysql> insert into employee(empID,deptID,fname,lname,empPos,empSal,joinDate) values(4,4,'Harsh','Lambe','App dev',24000,'2024/11/04'),(3,3,'Hrishi','Tibile','SDE',25000,'2023/10/07');
+Query OK, 2 rows affected, 2 warnings (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql> select *from employee;
++-------+--------+--------+--------+---------+--------+------------+
+| empID | deptID | fname  | lname  | empPos  | empSal | joinDate   |
++-------+--------+--------+--------+---------+--------+------------+
+|     1 |      1 | Sumit  | Sunke  | SDE     |  30000 | 2023-12-01 |
+|     2 |      2 | Pavan  | Thorat | Wev dev |  35000 | 2022-08-14 |
+|     3 |      3 | Hrishi | Tibile | SDE     |  25000 | 2023-10-07 |
+|     4 |      4 | Harsh  | Lambe  | App dev |  24000 | 2024-11-04 |
++-------+--------+--------+--------+---------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO employee (empID, deptID, fname, lname, empPos, empSal, joinDate)
+    -> VALUES
+    ->    (4, 4, 'Vikram', 'Verma', 'App dev', 24000, '2024/11/04'),
+    ->    (3, 3, 'Pranav', 'Tiwari', 'SDE', 25000, '2023/10/07'),
+    ->    (5, 1, 'Aparna', 'Sharma', 'Photographer', 30000, '2023/09/15'),
+    ->    (6, 2, 'Nisha', 'Saxena', 'Designer', 35000, '2023/11/30'),
+    ->    (7, 2, 'Ajay', 'Gupta', 'Software Engineer', 28000, '2024/01/12'),
+    ->    (8, 4, 'Swati', 'Kumar', 'HR Specialist', 26000, '2023/12/05');
+ERROR 1062 (23000): Duplicate entry '4' for key 'employee.PRIMARY'
+mysql> INSERT INTO employee (empID, deptID, fname, lname, empPos, empSal, joinDate)
+    -> VALUES
+    ->    (5, 4, 'Vikram', 'Verma', 'App dev', 24000, '2024/11/04'),
+    ->    (6, 3, 'Pranav', 'Tiwari', 'SDE', 25000, '2023/10/07'),
+    ->    (7, 1, 'Aparna', 'Sharma', 'Photographer', 30000, '2023/09/15'),
+    ->    (8, 2, 'Nisha', 'Saxena', 'Designer', 35000, '2023/11/30'),
+    ->    (9, 2, 'Ajay', 'Gupta', 'Software Engineer', 28000, '2024/01/12'),
+    ->    (10, 4, 'Swati', 'Kumar', 'HR Specialist', 26000, '2023/12/05');
+Query OK, 6 rows affected, 6 warnings (0.04 sec)
+Records: 6  Duplicates: 0  Warnings: 6
+
+mysql> select *from employee;
++-------+--------+--------+--------+-------------------+--------+------------+
+| empID | deptID | fname  | lname  | empPos            | empSal | joinDate   |
++-------+--------+--------+--------+-------------------+--------+------------+
+|     1 |      1 | Sumit  | Sunke  | SDE               |  30000 | 2023-12-01 |
+|     2 |      2 | Pavan  | Thorat | Wev dev           |  35000 | 2022-08-14 |
+|     3 |      3 | Hrishi | Tibile | SDE               |  25000 | 2023-10-07 |
+|     4 |      4 | Harsh  | Lambe  | App dev           |  24000 | 2024-11-04 |
+|     5 |      4 | Vikram | Verma  | App dev           |  24000 | 2024-11-04 |
+|     6 |      3 | Pranav | Tiwari | SDE               |  25000 | 2023-10-07 |
+|     7 |      1 | Aparna | Sharma | Photographer      |  30000 | 2023-09-15 |
+|     8 |      2 | Nisha  | Saxena | Designer          |  35000 | 2023-11-30 |
+|     9 |      2 | Ajay   | Gupta  | Software Engineer |  28000 | 2024-01-12 |
+|    10 |      4 | Swati  | Kumar  | HR Specialist     |  26000 | 2023-12-05 |
++-------+--------+--------+--------+-------------------+--------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select *from employee where deptID = 1 or deptID = 2;
++-------+--------+--------+--------+-------------------+--------+------------+
+| empID | deptID | fname  | lname  | empPos            | empSal | joinDate   |
++-------+--------+--------+--------+-------------------+--------+------------+
+|     1 |      1 | Sumit  | Sunke  | SDE               |  30000 | 2023-12-01 |
+|     7 |      1 | Aparna | Sharma | Photographer      |  30000 | 2023-09-15 |
+|     2 |      2 | Pavan  | Thorat | Wev dev           |  35000 | 2022-08-14 |
+|     8 |      2 | Nisha  | Saxena | Designer          |  35000 | 2023-11-30 |
+|     9 |      2 | Ajay   | Gupta  | Software Engineer |  28000 | 2024-01-12 |
++-------+--------+--------+--------+-------------------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select *from employee where fname like 'H%' or fname like 'P%';
++-------+--------+--------+--------+---------+--------+------------+
+| empID | deptID | fname  | lname  | empPos  | empSal | joinDate   |
++-------+--------+--------+--------+---------+--------+------------+
+|     2 |      2 | Pavan  | Thorat | Wev dev |  35000 | 2022-08-14 |
+|     3 |      3 | Hrishi | Tibile | SDE     |  25000 | 2023-10-07 |
+|     4 |      4 | Harsh  | Lambe  | App dev |  24000 | 2024-11-04 |
+|     6 |      3 | Pranav | Tiwari | SDE     |  25000 | 2023-10-07 |
++-------+--------+--------+--------+---------+--------+------------+
+4 rows in set (0.04 sec)
+
+mysql> select *from employee where (fname like 'H%' or fname like 'P%') and (deptID = 1 or deptID = 2);
++-------+--------+-------+--------+---------+--------+------------+
+| empID | deptID | fname | lname  | empPos  | empSal | joinDate   |
++-------+--------+-------+--------+---------+--------+------------+
+|     2 |      2 | Pavan | Thorat | Wev dev |  35000 | 2022-08-14 |
++-------+--------+-------+--------+---------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct empPos),empPos from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'assign2.employee.empPos'; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(distinct empPos),empPos from employee group by empPos;
++------------------------+-------------------+
+| count(distinct empPos) | empPos            |
++------------------------+-------------------+
+|                      1 | App dev           |
+|                      1 | Designer          |
+|                      1 | HR Specialist     |
+|                      1 | Photographer      |
+|                      1 | SDE               |
+|                      1 | Software Engineer |
+|                      1 | Wev dev           |
++------------------------+-------------------+
+7 rows in set (0.04 sec)
+
+mysql> select count(*),empPos from employee group by empPos;oup
++----------+-------------------+
+| count(*) | empPos            |
++----------+-------------------+
+|        3 | SDE               |
+|        1 | Wev dev           |
+|        2 | App dev           |
+|        1 | Photographer      |
+|        1 | Designer          |
+|        1 | Software Engineer |
+|        1 | HR Specialist     |
++----------+-------------------+
+7 rows in set (0.01 sec)
+
+    -> select count(*),empPos from employee group by empPos;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'oup
+select count(*),empPos from employee group by empPos' at line 1
+mysql> select count(*),empPos from employee group by empPos;
++----------+-------------------+
+| count(*) | empPos            |
++----------+-------------------+
+|        3 | SDE               |
+|        1 | Wev dev           |
+|        2 | App dev           |
+|        1 | Photographer      |
+|        1 | Designer          |
+|        1 | Software Engineer |
+|        1 | HR Specialist     |
++----------+-------------------+
+7 rows in set (0.00 sec)
+
+mysql> update employee set empSal = empSal*1.1 where year(joinDate)<2024;
+Query OK, 7 rows affected (0.04 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+mysql> select fname,empSal,joinDate from employee;
++--------+--------+------------+
+| fname  | empSal | joinDate   |
++--------+--------+------------+
+| Sumit  |  33000 | 2023-12-01 |
+| Pavan  |  38500 | 2022-08-14 |
+| Hrishi |  27500 | 2023-10-07 |
+| Harsh  |  24000 | 2024-11-04 |
+| Vikram |  24000 | 2024-11-04 |
+| Pranav |  27500 | 2023-10-07 |
+| Aparna |  33000 | 2023-09-15 |
+| Nisha  |  38500 | 2023-11-30 |
+| Ajay   |  28000 | 2024-01-12 |
+| Swati  |  28600 | 2023-12-05 |
++--------+--------+------------+
+10 rows in set (0.00 sec)
+
+mysql> delete from dept where deptLoc='Mumbai';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`assign2`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`deptID`) REFERENCES `dept` (`deptID`))
+mysql> alter table employee drop foreign key employee_ibfk_1;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee
+    -> ADD CONSTRAINT employee_ibfk_1
+    -> FOREIGN KEY (deptID)
+    -> REFERENCES dept(deptID)
+    -> ON DELETE CASCADE;
+Query OK, 10 rows affected (0.03 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> delete from dept where deptLoc='Mumbai';
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from employee;
++-------+--------+--------+--------+-------------------+--------+------------+
+| empID | deptID | fname  | lname  | empPos            | empSal | joinDate   |
++-------+--------+--------+--------+-------------------+--------+------------+
+|     1 |      1 | Sumit  | Sunke  | SDE               |  33000 | 2023-12-01 |
+|     2 |      2 | Pavan  | Thorat | Wev dev           |  38500 | 2022-08-14 |
+|     3 |      3 | Hrishi | Tibile | SDE               |  27500 | 2023-10-07 |
+|     6 |      3 | Pranav | Tiwari | SDE               |  27500 | 2023-10-07 |
+|     7 |      1 | Aparna | Sharma | Photographer      |  33000 | 2023-09-15 |
+|     8 |      2 | Nisha  | Saxena | Designer          |  38500 | 2023-11-30 |
+|     9 |      2 | Ajay   | Gupta  | Software Engineer |  28000 | 2024-01-12 |
++-------+--------+--------+--------+-------------------+--------+------------+
+7 rows in set (0.00 sec)
+
+mysql> desc project;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| projID   | int         | NO   | PRI | NULL    |       |
+| deptID   | int         | YES  | MUL | NULL    |       |
+| projName | varchar(20) | YES  |     | NULL    |       |
+| projLoc  | varchar(20) | YES  |     | NULL    |       |
+| projCost | int         | YES  |     | NULL    |       |
+| projYear | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.04 sec)
+
+mysql> insert into project values(1,7,'xyz','zyz',10,2000);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`assign2`.`project`, CONSTRAINT `fk_project_deptID` FOREIGN KEY (`deptID`) REFERENCES `dept` (`deptID`) ON DELETE CASCADE)
+mysql> insert into project values(1,1,'Proj1','Pune',120000,2004);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO project (projID, deptID, projName, projLocation, projCost, projYear)
+    -> VALUES (2, 1, 'Proj2', 'Mumbai', 90000, 2005),
+    ->        (3, 1, 'Proj3', 'Mumbai', 75000, 2006),
+    ->        (4, 1, 'Proj4', 'Mumbai', 85000, 2007);
+ERROR 1054 (42S22): Unknown column 'projLocation' in 'field list'
+mysql> INSERT INTO project (projID, deptID, projName, projLoc, projCost, projYear)
+    -> VALUES (2, 1, 'Proj2', 'Mumbai', 90000, 2005),
+    ->        (3, 1, 'Proj3', 'Mumbai', 75000, 2006),
+    ->        (4, 1, 'Proj4', 'Mumbai', 85000, 2007);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO project (projID, deptID, projName, projLoc, projCost, projYear)
+    -> VALUES (5, 2, 'Proj5', 'Kolkata', 150000, 2008),
+    ->        (6, 2, 'Proj6', 'Kolkata', 200000, 2009),
+    ->        (7, 2, 'Proj7', 'Kolkata', 400000, 2010);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO project (projID, deptID, projName, projLoc, projCost, projYear)
+    -> VALUES (8, 3, 'Proj8', 'Kolhapur', 550000, 2011),
+    ->        (9, 3, 'Proj9', 'Kolhapur', 650000, 2012),
+    ->        (10, 3, 'Proj10', 'Kolhapur', 700000, 2013);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select *from project;
++--------+--------+----------+----------+----------+----------+
+| projID | deptID | projName | projLoc  | projCost | projYear |
++--------+--------+----------+----------+----------+----------+
+|      1 |      1 | Proj1    | Pune     |   120000 |     2004 |
+|      2 |      1 | Proj2    | Mumbai   |    90000 |     2005 |
+|      3 |      1 | Proj3    | Mumbai   |    75000 |     2006 |
+|      4 |      1 | Proj4    | Mumbai   |    85000 |     2007 |
+|      5 |      2 | Proj5    | Kolkata  |   150000 |     2008 |
+|      6 |      2 | Proj6    | Kolkata  |   200000 |     2009 |
+|      7 |      2 | Proj7    | Kolkata  |   400000 |     2010 |
+|      8 |      3 | Proj8    | Kolhapur |   550000 |     2011 |
+|      9 |      3 | Proj9    | Kolhapur |   650000 |     2012 |
+|     10 |      3 | Proj10   | Kolhapur |   700000 |     2013 |
++--------+--------+----------+----------+----------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select projName,projCost from project where projCost between 100000 and 500000;
++----------+----------+
+| projName | projCost |
++----------+----------+
+| Proj1    |   120000 |
+| Proj5    |   150000 |
+| Proj6    |   200000 |
+| Proj7    |   400000 |
++----------+----------+
+4 rows in set (0.04 sec)
+
+mysql> select max(projCost),projName from project;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'assign2.project.projName'; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(projCost),projName from project group by projCost;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'assign2.project.projName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(projCost) from project group by projCost;
++---------------+
+| max(projCost) |
++---------------+
+|        120000 |
+|         90000 |
+|         75000 |
+|         85000 |
+|        150000 |
+|        200000 |
+|        400000 |
+|        550000 |
+|        650000 |
+|        700000 |
++---------------+
+10 rows in set (0.00 sec)
+
+mysql> select max(projCost) from project;
++---------------+
+| max(projCost) |
++---------------+
+|        700000 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select projName,projCost from project where projCost = (select max(projCost) from project);
++----------+----------+
+| projName | projCost |
++----------+----------+
+| Proj10   |   700000 |
++----------+----------+
+1 row in set (0.04 sec)
+
+mysql> select fname,lname from employee order by lname desc;
++--------+--------+
+| fname  | lname  |
++--------+--------+
+| Pranav | Tiwari |
+| Hrishi | Tibile |
+| Pavan  | Thorat |
+| Sumit  | Sunke  |
+| Aparna | Sharma |
+| Nisha  | Saxena |
+| Ajay   | Gupta  |
++--------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select projName,projLoc,year from project where year in (2004,2005,2006);
+ERROR 1054 (42S22): Unknown column 'year' in 'field list'
+mysql> select projName,projLoc,projYear from project where projYear in (2004,2005,2006);
++----------+---------+----------+
+| projName | projLoc | projYear |
++----------+---------+----------+
+| Proj1    | Pune    |     2004 |
+| Proj2    | Mumbai  |     2005 |
+| Proj3    | Mumbai  |     2006 |
++----------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,21 @@
+//INSERT
+1)insertOne()
+2)insertMany()
+3)insert
+
+//FIND
+1) find()
+2) findOne()
+
+// UPDATE
+1) update
+2) updateOne
+3) updateMany
+4) findOneAndUpdate
+5) findOneAndReplace
+6) findAndModify
+7) if multi:true then works as updateMany
+
+
+//LOGICAL AND ARITHMETIC OPERATORS
+$gt,$gte,$lt,$lte,$or,$and,$ne,$eq,$in,$nin

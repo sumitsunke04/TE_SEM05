@@ -1,0 +1,419 @@
+Microsoft Windows [Version 10.0.22621.2283]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP>mysql
+ERROR 1045 (28000): Access denied for user 'ODBC'@'localhost' (using password: NO)
+
+C:\Users\HP>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignments        |
+| employeeproject    |
+| information_schema |
+| mysql              |
+| org                |
+| performance_schema |
+| resto              |
+| sys                |
+| temp               |
++--------------------+
+9 rows in set (0.08 sec)
+
+mysql> create database StudentPlacement;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> create table placement_drive(drive_id int,pcompany_name varchar(20),package int,location varchar(20));
+ERROR 1046 (3D000): No database selected
+mysql> use StudentPlacement;
+Database changed
+mysql> create table placement_drive(drive_id int,pcompany_name varchar(20),package int,location varchar(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> drop table placement_drive;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table placement_drive(drive_id int,pcompany_name varchar(20),package int,location varchar(20),primary key(drive_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table training(t_id int,tcompany_name varchar(20),t_fee int,t_year int,primary key(t_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table student(s_id int,drive_id int,t_id int,sname varchar(20),cgpa real,s_branch varchar(20),s_dob date,primary key(s_id),foreign key(drive_id) references placement_drive(drive_id) on delete cascade,foreign key(t_id) references training(t_id) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| s_id     | int         | NO   | PRI | NULL    |       |
+| drive_id | int         | YES  | MUL | NULL    |       |
+| t_id     | int         | YES  | MUL | NULL    |       |
+| sname    | varchar(20) | YES  |     | NULL    |       |
+| cgpa     | double      | YES  |     | NULL    |       |
+| s_branch | varchar(20) | YES  |     | NULL    |       |
+| s_dob    | date        | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> desc training;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| t_id          | int         | NO   | PRI | NULL    |       |
+| tcompany_name | varchar(20) | YES  |     | NULL    |       |
+| t_fee         | int         | YES  |     | NULL    |       |
+| t_year        | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc placement_drive;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| drive_id      | int         | NO   | PRI | NULL    |       |
+| pcompany_name | varchar(20) | YES  |     | NULL    |       |
+| package       | int         | YES  |     | NULL    |       |
+| location      | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into training values(1,'bnymellon',21000,2015);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into training values(2,'ubs'14000,2018);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '14000,2018)' at line 1
+mysql> insert into training values(2,'ubs',14000,2018);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into training values(3,'generalmills',11000,2021);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into training values(4,'ideas',16000,2017);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into training values(5,'barclays',19000,2013);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from training;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    1 | bnymellon     | 21000 |   2015 |
+|    2 | ubs           | 14000 |   2018 |
+|    3 | generalmills  | 11000 |   2021 |
+|    4 | ideas         | 16000 |   2017 |
+|    5 | barclays      | 19000 |   2013 |
++------+---------------+-------+--------+
+5 rows in set (0.01 sec)
+
+mysql> insert into placement_drive values(1,'mastercard',45000,'pune');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into placement_drive values(2,'barclays',55000,'pune);
+    '>
+    '> insert into placement_drive values(2,'barclays',55000,'pune);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'barclays',55000,'pune)' at line 3
+mysql> insert into placement_drive values(2,'barclays',55000,'pune);
+    '> insert into placement_drive values(2,'barclays',55000,'pune);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'barclays',55000,'pune)' at line 2
+mysql> insert into placement_drive values(2,'barclays',55000,'pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into placement_drive values(3,ittiam,35000,'banglore');
+ERROR 1054 (42S22): Unknown column 'ittiam' in 'field list'
+mysql> insert into placement_drive values(3,'ittiam',35000,'banglore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into placement_drive values(3,'bnymellon',42000,'mumbai');
+ERROR 1062 (23000): Duplicate entry '3' for key 'placement_drive.PRIMARY'
+mysql> insert into placement_drive values(4,'bnymellon',42000,'mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into placement_drive values(5,'ubs',32000,'mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into placement_drive values(6,'ideas',41000,'pune');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into placement_drive values(7,'generalmills',62000,'mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from placement_drive;
++----------+---------------+---------+----------+
+| drive_id | pcompany_name | package | location |
++----------+---------------+---------+----------+
+|        1 | mastercard    |   45000 | pune     |
+|        2 | barclays      |   55000 | pune     |
+|        3 | ittiam        |   35000 | banglore |
+|        4 | bnymellon     |   42000 | mumbai   |
+|        5 | ubs           |   32000 | mumbai   |
+|        6 | ideas         |   41000 | pune     |
+|        7 | generalmills  |   62000 | mumbai   |
++----------+---------------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> insert into placement_drive values(8,'bloomberg',57000,'banglore');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from placement_drive;
++----------+---------------+---------+----------+
+| drive_id | pcompany_name | package | location |
++----------+---------------+---------+----------+
+|        1 | mastercard    |   45000 | pune     |
+|        2 | barclays      |   55000 | pune     |
+|        3 | ittiam        |   35000 | banglore |
+|        4 | bnymellon     |   42000 | mumbai   |
+|        5 | ubs           |   32000 | mumbai   |
+|        6 | ideas         |   41000 | pune     |
+|        7 | generalmills  |   62000 | mumbai   |
+|        8 | bloomberg     |   57000 | banglore |
++----------+---------------+---------+----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into student values(1,4,1,'sumit',9.3,'cs','04-06-2003');
+ERROR 1292 (22007): Incorrect date value: '04-06-2003' for column 's_dob' at row 1
+mysql> insert into student values(1,4,1,'sumit',9.3,'cs','04/06/2003');
+ERROR 1292 (22007): Incorrect date value: '04/06/2003' for column 's_dob' at row 1
+mysql> insert into student values(1,4,1,'sumit',9.3,'cs','2003/04/06');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into student values(2,5,3,'aryan',6.9,'entc','2003/21/10');
+ERROR 1292 (22007): Incorrect date value: '2003/21/10' for column 's_dob' at row 1
+mysql> insert into student values(2,5,3,'aryan',6.9,'entc','2003/10/21');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(3,2,1,'bhavesh',8.6,'it','2003/6/12');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into student values(4,6,4,'darshan',6.7,'cs','2002/11/01');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(5,2,5,'maheshwar',9.1,'cs','2003/04/08');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(6,1,1,'abhishek',9.1,'it','2003/03/09');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(7,2,3,'amey',7.7,'entc','2003/06/06');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(8,4,4,'deepak',8.8,'cs','2003/06/9/01');
+Query OK, 1 row affected, 2 warnings (0.00 sec)
+
+mysql> insert into student values(9,4,2,'ajay',8.8,'it','2003/06/9');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into student values(10,3,3,'samarth',5.2,'cs','2002/09/10');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> select *from student;
++------+----------+------+-----------+------+----------+------------+
+| s_id | drive_id | t_id | sname     | cgpa | s_branch | s_dob      |
++------+----------+------+-----------+------+----------+------------+
+|    1 |        4 |    1 | sumit     |  9.3 | cs       | 2003-04-06 |
+|    2 |        5 |    3 | aryan     |  6.9 | entc     | 2003-10-21 |
+|    3 |        2 |    1 | bhavesh   |  8.6 | it       | 2003-06-12 |
+|    4 |        6 |    4 | darshan   |  6.7 | cs       | 2002-11-01 |
+|    5 |        2 |    5 | maheshwar |  9.1 | cs       | 2003-04-08 |
+|    6 |        1 |    1 | abhishek  |  9.1 | it       | 2003-03-09 |
+|    7 |        2 |    3 | amey      |  7.7 | entc     | 2003-06-06 |
+|    8 |        4 |    4 | deepak    |  8.8 | cs       | 2003-06-09 |
+|    9 |        4 |    2 | ajay      |  8.8 | it       | 2003-06-09 |
+|   10 |        3 |    3 | samarth   |  5.2 | cs       | 2002-09-10 |
++------+----------+------+-----------+------+----------+------------+
+10 rows in set (0.04 sec)
+
+mysql> select *from student where (sname like 'a%' or sname like 'd%') and (s_branch='cs' or s_branch='it');
++------+----------+------+----------+------+----------+------------+
+| s_id | drive_id | t_id | sname    | cgpa | s_branch | s_dob      |
++------+----------+------+----------+------+----------+------------+
+|    4 |        6 |    4 | darshan  |  6.7 | cs       | 2002-11-01 |
+|    6 |        1 |    1 | abhishek |  9.1 | it       | 2003-03-09 |
+|    8 |        4 |    4 | deepak   |  8.8 | cs       | 2003-06-09 |
+|    9 |        4 |    2 | ajay     |  8.8 | it       | 2003-06-09 |
++------+----------+------+----------+------+----------+------------+
+4 rows in set (0.04 sec)
+
+mysql> select distinct pcompany_name from placement_drive;
++---------------+
+| pcompany_name |
++---------------+
+| mastercard    |
+| barclays      |
+| ittiam        |
+| bnymellon     |
+| ubs           |
+| ideas         |
+| generalmills  |
+| bloomberg     |
++---------------+
+8 rows in set (0.04 sec)
+
+mysql> insert into training values(5,'google',15000,2019);
+ERROR 1062 (23000): Duplicate entry '5' for key 'training.PRIMARY'
+mysql> insert into training values(6,'google',15000,2019);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into training values(7,'veritas',11000,2019);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> update training set t_fee = t_fee+0.15*t_fee where t_year = 2019;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select*from training;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    1 | bnymellon     | 21000 |   2015 |
+|    2 | ubs           | 14000 |   2018 |
+|    3 | generalmills  | 11000 |   2021 |
+|    4 | ideas         | 16000 |   2017 |
+|    5 | barclays      | 19000 |   2013 |
+|    6 | google        | 17250 |   2019 |
+|    7 | veritas       | 12650 |   2019 |
++------+---------------+-------+--------+
+7 rows in set (0.00 sec)
+
+mysql> delete from student where cgpa<7;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select *from student;
++------+----------+------+-----------+------+----------+------------+
+| s_id | drive_id | t_id | sname     | cgpa | s_branch | s_dob      |
++------+----------+------+-----------+------+----------+------------+
+|    1 |        4 |    1 | sumit     |  9.3 | cs       | 2003-04-06 |
+|    3 |        2 |    1 | bhavesh   |  8.6 | it       | 2003-06-12 |
+|    5 |        2 |    5 | maheshwar |  9.1 | cs       | 2003-04-08 |
+|    6 |        1 |    1 | abhishek  |  9.1 | it       | 2003-03-09 |
+|    7 |        2 |    3 | amey      |  7.7 | entc     | 2003-06-06 |
+|    8 |        4 |    4 | deepak    |  8.8 | cs       | 2003-06-09 |
+|    9 |        4 |    2 | ajay      |  8.8 | it       | 2003-06-09 |
++------+----------+------+-----------+------+----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select pcompany_name from placement_drive where location = 'mumbai' or location='pune';
++---------------+
+| pcompany_name |
++---------------+
+| mastercard    |
+| barclays      |
+| bnymellon     |
+| ubs           |
+| ideas         |
+| generalmills  |
++---------------+
+6 rows in set (0.00 sec)
+
+mysql> select sname from student s,training t where s.t_id=t.t_id and (t_year=2019 or t_year=2021);
++-------+
+| sname |
++-------+
+| amey  |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select sname from student where cgpa = (select max(cgpa) from student);
++-------+
+| sname |
++-------+
+| sumit |
++-------+
+1 row in set (0.04 sec)
+
+mysql> select sname from student where cgpa between 7 and 9;
++---------+
+| sname   |
++---------+
+| bhavesh |
+| amey    |
+| deepak  |
+| ajay    |
++---------+
+4 rows in set (0.03 sec)
+
+mysql> select s.sname,t.t_tid from student s,training t where s.t_id = t.t_id order by t.t_fee desc;
+ERROR 1054 (42S22): Unknown column 't.t_tid' in 'field list'
+mysql> select s.sname,s.t_tid from student s,training t where s.t_id = t.t_id order by t.t_fee desc;
+ERROR 1054 (42S22): Unknown column 's.t_tid' in 'field list'
+mysql> select s.sname,s.t_id from student s,training t where s.t_id = t.t_id order by t.t_fee desc;
++-----------+------+
+| sname     | t_id |
++-----------+------+
+| sumit     |    1 |
+| bhavesh   |    1 |
+| abhishek  |    1 |
+| maheshwar |    5 |
+| deepak    |    4 |
+| ajay      |    2 |
+| amey      |    3 |
++-----------+------+
+7 rows in set (0.00 sec)
+
+mysql> select s.sname,s.t_id,t.t_fee from student s,training t where s.t_id
+= t.t_id order by t.t_fee desc;
++-----------+------+-------+
+| sname     | t_id | t_fee |
++-----------+------+-------+
+| sumit     |    1 | 21000 |
+| bhavesh   |    1 | 21000 |
+| abhishek  |    1 | 21000 |
+| maheshwar |    5 | 19000 |
+| deepak    |    4 | 16000 |
+| ajay      |    2 | 14000 |
+| amey      |    3 | 11000 |
++-----------+------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create or replace view topstudent as select sid,sname,cgpa,s_branch from student where cgpa > 8;
+ERROR 1054 (42S22): Unknown column 'sid' in 'field list'
+mysql> create or replace view topstudent as select s_id,sname,cgpa,s_branch
+from student where cgpa > 8;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select *from topstudent;
++------+-----------+------+----------+
+| s_id | sname     | cgpa | s_branch |
++------+-----------+------+----------+
+|    1 | sumit     |  9.3 | cs       |
+|    3 | bhavesh   |  8.6 | it       |
+|    5 | maheshwar |  9.1 | cs       |
+|    6 | abhishek  |  9.1 | it       |
+|    8 | deepak    |  8.8 | cs       |
+|    9 | ajay      |  8.8 | it       |
++------+-----------+------+----------+
+6 rows in set (0.04 sec)
+
+mysql> create index indname on student(sname);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index from student;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| student |          0 | PRIMARY  |            1 | s_id        | A         |           7 |     NULL |   NULL |      | BTREE      |         |
+   | YES     | NULL       |
+| student |          1 | drive_id |            1 | drive_id    | A         |           3 |     NULL |   NULL | YES  | BTREE      |         |
+   | YES     | NULL       |
+| student |          1 | t_id     |            1 | t_id        | A         |           5 |     NULL |   NULL | YES  | BTREE      |         |
+   | YES     | NULL       |
+| student |          1 | indname  |            1 | sname       | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |
+   | YES     | NULL       |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+4 rows in set (0.03 sec)

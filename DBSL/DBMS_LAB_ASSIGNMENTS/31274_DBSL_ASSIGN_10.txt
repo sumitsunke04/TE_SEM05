@@ -1,0 +1,318 @@
+
+
+***********************************************************Match************************************************************
+
+customerOrder> db.customers.aggregate({$match:{age:{$gt:20},"address.city":"Kop"}})
+[
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+
+******************************************************Group**********************************************************************
+customerOrder> db.customers.aggregate({$group:{_id:"$address.city",totalage:{$sum:"$age"}}})
+[
+  { _id: 'Kop', totalage: 62 },
+  { _id: 'baramati', totalage: 20 },
+  { _id: 'sinnar', totalage: 21 }
+]
+
+*********************************************************Project*****************************************************
+customerOrder> db.customers.aggregate({$match:{name:"Abhishek Bhosale"}},{$project:{name:1,orders:1,interestCategories:1,age:1}})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    age: 21,
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder> db.customers.find({name:"Abhishek Bhosale"})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+
+
+**********************************************************SORT*************************************************************
+
+
+customerOrder> db.customers.aggregate({$sort:{age:1,name:-1}})
+[
+  {
+    _id: ObjectId("653f9d765fd8f0dec2ccc356"),
+    address: { city: 'Kop' },
+    name: 'Not existing account'
+  },
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 20,
+    address: { city: 'Kop', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch', 'Books' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder>
+
+
+
+
+****************************************************************************Limit and Skip******************************************************
+customerOrder> db.customers.aggregate({$limit:3})
+[
+  {
+    _id: ObjectId("653d02bb8017e404b2476a30"),
+    name: 'Sumit Sunke',
+    email: 'sumit@gmail.com',
+    contact: 9011099001,
+    age: 20,
+    address: { city: 'Kop', zip: 416108 },
+    interestCategories: [ 'Mobile', 'Laptop', 'Shirts', 'Watch', 'Books' ],
+    orders: [ { ordID: 1, prodName: 'Mobile', quantity: 1, price: 15000 } ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a31"),
+    name: 'Rushi Mane',
+    email: 'rushi@yahoo.com',
+    contact: 9879878765,
+    age: 20,
+    address: { city: 'baramati', zip: 413133 },
+    interestCategories: [ 'Bike', 'Mobile', 'Watch' ],
+    orders: [
+      { ordID: 2, prodName: 'Watch', quantity: 1, price: 350 },
+      { ordID: 3, prodName: 'Belt', quantity: 2, price: 150 }
+    ]
+  },
+  {
+    _id: ObjectId("653d09458017e404b2476a32"),
+    name: 'Mahesh Bhosale',
+    email: 'mahesh@gmail.com',
+    contact: 3213132134,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Book' ],
+    orders: [ { ordID: 4, prodName: 'Shirt', quantity: 3, price: 550 } ]
+  }
+]
+customerOrder> db.customers.aggregate({$skip:3})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  },
+  {
+    _id: ObjectId("653f9d765fd8f0dec2ccc356"),
+    address: { city: 'Kop' },
+    name: 'Not existing account'
+  }
+]
+customerOrder> db.customers.aggregate({$skip:3,$limit:2})
+MongoServerError: A pipeline stage specification object must contain exactly one field.
+customerOrder> db.customers.aggregate({$skip:3},{$limit:2})
+[
+  {
+    _id: ObjectId("653d4d408017e404b2476a33"),
+    name: 'Pavan Thorat',
+    email: 'pavan@gmail.com',
+    contact: 9879435335,
+    age: 21,
+    address: { city: 'sinnar', zip: 404115 },
+    interestCategories: [ 'Movies', 'Mobile', 'Shirts' ],
+    orders: [
+      { ordID: 4, prodName: 'Movies', quantity: 1, price: 450 },
+      { ordID: 3, prodName: 'Shirt', quantity: 2, price: 190 }
+    ]
+  },
+  {
+    _id: ObjectId("653d4d408017e404b2476a34"),
+    name: 'Abhishek Bhosale',
+    email: 'abhi@gmail.com',
+    contact: 32131343234,
+    age: 21,
+    address: { city: 'Kop', zip: 416101 },
+    interestCategories: [ 'Laptop', 'Mobile', 'Food' ],
+    orders: [ { ordID: 4, prodName: 'mobile', quantity: 1, price: 15550 } ]
+  }
+]
+customerOrder>
+
+
+
+
+
+
+
+
+
+
+
+*****************************************************************Indexing*******************************************
+customerOrder> db.customers.createIndex({name:1})
+name_1
+customerOrder> db.customers.getIndex()
+TypeError: db.customers.getIndex is not a function
+customerOrder> db.customers.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' }
+]
+customerOrder> db.customers.ensureIndex()
+TypeError: Cannot convert undefined or null to object
+customerOrder> db.customers.createIndex({name:1,age:1})
+name_1_age_1
+customerOrder> db.customers.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' },
+  { v: 2, key: { name: 1, age: 1 }, name: 'name_1_age_1' }
+]
+customerOrder> db.customers.ensureIndex({name_1})
+ReferenceError: name_1 is not defined
+customerOrder> db.customers.ensureIndex({name_1:1})
+[ 'name_1_1' ]
+customerOrder> db.customers.ensureIndex({name_1:-1})
+[ 'name_1_-1' ]
+customerOrder> db.customers.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' },
+  { v: 2, key: { name: 1, age: 1 }, name: 'name_1_age_1' },
+  { v: 2, key: { name_1: 1 }, name: 'name_1_1' },
+  { v: 2, key: { name_1: -1 }, name: 'name_1_-1' }
+]
+customerOrder> db.customers.dropIndex({name_1:-1})
+{ nIndexesWas: 5, ok: 1 }
+customerOrder> db.customers.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' },
+  { v: 2, key: { name: 1, age: 1 }, name: 'name_1_age_1' },
+  { v: 2, key: { name_1: 1 }, name: 'name_1_1' }
+]
+customerOrder> db.customers.dropIndex({name_1:1})
+{ nIndexesWas: 4, ok: 1 }
+customerOrder> db.customers.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' },
+  { v: 2, key: { name: 1, age: 1 }, name: 'name_1_age_1' }
+]
+customerOrder>
+
+
+
+**********************************************************************count and distinct*************************************************************
+
+customerOrder> db.customers.count({age:21})
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+3
+
+customerOrder> db.customers.distinct("address.city")
+[ 'Kop', 'baramati', 'sinnar' ]
+customerOrder>
+
+
+***************************************************total purchase********************************************************
+customerOrder> db.customers.aggregate([{$unwind:"$orders"},{$group:{_id:"$name",totalPurchase:{$sum:{$multiply:["$orders.quantity","$orders.price"]}}}}])
+[
+  { _id: 'Mahesh Bhosale', totalPurchase: 1650 },
+  { _id: 'Rushi Mane', totalPurchase: 650 },
+  { _id: 'Pavan Thorat', totalPurchase: 830 },
+  { _id: 'Abhishek Bhosale', totalPurchase: 15550 },
+  { _id: 'Sumit Sunke', totalPurchase: 15000 }
+]
+customerOrder>

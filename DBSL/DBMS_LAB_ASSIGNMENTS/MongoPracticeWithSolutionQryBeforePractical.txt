@@ -1,0 +1,536 @@
+Microsoft Windows [Version 10.0.22621.2428]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP>mongosh
+Current Mongosh Log ID: 65466afb18c789b17f1cc685
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          6.0.5
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-11-04T21:30:52.230+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+PracticeDatabase       72.00 KiB
+admin                  40.00 KiB
+config                 72.00 KiB
+customerOrder         232.00 KiB
+employeeRegistration   16.00 KiB
+local                  84.00 KiB
+todoListDB              8.00 KiB
+test> use customerOrder
+switched to db customerOrder
+customerOrder> show collections
+cstOrder
+customer
+customers
+myout
+customerOrder> db.cstOrder.find({},{name:1})
+[
+  { _id: ObjectId("6546481f2fdfae7c1e0f8444"), name: 'Sumit' },
+  { _id: ObjectId("6546494b2fdfae7c1e0f8445"), name: 'Pavan' },
+  { _id: ObjectId("6546494b2fdfae7c1e0f8446"), name: 'Rushi' },
+  { _id: ObjectId("65464cca2fdfae7c1e0f8447"), name: 'Niraj' }
+]
+customerOrder> db.cstOrder.find({},{_id:0,email:0,contact:0,age:0})
+[
+  {
+    name: 'Sumit',
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCat: [ 'Mobile', 'Shirt', 'Perfume', 'Laptop' ],
+    orders: [
+      { prodName: 'Mobile', quantity: 1, price: 15000 },
+      { prodName: 'Perfume', quantity: 2, price: 550 }
+    ]
+  },
+  {
+    name: 'Pavan',
+    address: { city: 'Sinnar', zip: 412908 },
+    interestCat: [ 'Books', 'Bat', 'Laptop' ],
+    orders: [
+      { prodName: 'Laptpo', quantity: 1, price: 65000 },
+      { prodName: 'Perfume', quantity: 1, price: 1550 },
+      { prodName: 'Charger', quantity: 1, price: 350 }
+    ]
+  },
+  {
+    name: 'Rushi',
+    address: { city: 'Baramati', zip: 411321 },
+    interestCat: [ 'Movie', 'Watch', 'Cars' ],
+    orders: [ { prodName: 'Watch', quantity: 1, price: 2000 } ]
+
+customerOrder> db.cstOrder.update({"orders.prodName":"Laptpo"},{$set:{"orders.prodName":"Laptop"}},{multi:true})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+MongoServerError: Cannot create field 'prodName' in element {orders: [ { prodName: "Laptpo", quantity: 1, price: 65000 }, { prodName: "Perfume", quantity: 1, price: 1550 }, { prodName: "Charger", quantity: 1, price: 350 } ]}
+customerOrder> db.cstOrder.updateOne({"orders.prodName":"Laptpo"},{$set:{"orders.prodName":"Laptop"}})
+MongoServerError: Cannot create field 'prodName' in element {orders: [ { prodName: "Laptpo", quantity: 1, price: 65000 }, { prodName: "Perfume", quantity: 1, price: 1550 }, { prodName: "Charger", quantity: 1, price: 350 } ]}
+customerOrder> db.cstOrder.find().first()
+TypeError: db.cstOrder.find().first is not a function
+customerOrder> db.cstOrder.find().limit(1)
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    email: 'sumit@test.com',
+    contact: 3214,
+    age: 20,
+    address: { city: 'Kolhapur', zip: 416108 },
+    interestCat: [ 'Mobile', 'Shirt', 'Perfume', 'Laptop' ],
+    orders: [
+      { prodName: 'Mobile', quantity: 1, price: 15000 },
+      { prodName: 'Perfume', quantity: 2, price: 550 }
+    ]
+  }
+]
+customerOrder> db.cstOrder.updateOne({"orders.prodName":"Laptpo"},{$set:{"orders.prodName":"Laptop"}})
+MongoServerError: Cannot create field 'prodName' in element {orders: [ { prodName: "Laptpo", quantity: 1, price: 65000 }, { prodName: "Perfume", quantity: 1, price: 1550 }, { prodName: "Charger", quantity: 1, price: 350 } ]}
+customerOrder> db.cstOrder.updateOne({"orders.prodName":"Laptpo"},{$set:{"orders[0].prodName":"Laptop"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.updateOne({"orders.prodName":"Laptpo"},{$set:{"orders[].prodName":"Laptop"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.find({name:"Pavan"},{name:1,email:1,orders:1})
+[
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    email: 'pavan@test.com',
+    orders: [
+      { prodName: 'Laptpo', quantity: 1, price: 65000 },
+      { prodName: 'Perfume', quantity: 1, price: 1550 },
+      { prodName: 'Charger', quantity: 1, price: 350 }
+    ]
+  }
+]
+customerOrder> db.cstOrder.updateOne({"orders[0].prodName":"Laptpo"},{$set:{"orders[0].prodName":"Laptop"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.updateOne({"orders[0].prodName":"Laptpo"})
+MongoInvalidArgumentError: Update document requires atomic operators
+customerOrder> db.cstOrder.find({}, {orders:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    orders: [
+      { prodName: 'Mobile', quantity: 1, price: 15000 },
+      { prodName: 'Perfume', quantity: 2, price: 550 }
+    ]
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    orders: [
+      { prodName: 'Laptpo', quantity: 1, price: 65000 },
+      { prodName: 'Perfume', quantity: 1, price: 1550 },
+      { prodName: 'Charger', quantity: 1, price: 350 }
+    ]
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    orders: [ { prodName: 'Watch', quantity: 1, price: 2000 } ]
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    orders: [
+      { prodName: 'Mobile', quantity: 2, price: 13000 },
+      { prodName: 'Laptop', quantity: 1, price: 55000 }
+    ]
+  }
+]
+customerOrder> db.cstOrder.find({}, {name:1,orders:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    orders: [
+      { prodName: 'Mobile', quantity: 1, price: 15000 },
+      { prodName: 'Perfume', quantity: 2, price: 550 }
+    ]
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    orders: [
+      { prodName: 'Laptpo', quantity: 1, price: 65000 },
+
+customerOrder> db.cstOrder.find({name:"Sumit"}).explain("executionStats");
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'customerOrder.cstOrder',
+    indexFilterSet: false,
+    parsedQuery: { name: { '$eq': 'Sumit' } },
+    queryHash: '64908032',
+    planCacheKey: '64908032',
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    winningPlan: {
+      stage: 'COLLSCAN',
+      filter: { name: { '$eq': 'Sumit' } },
+      direction: 'forward'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 4,
+    totalKeysExamined: 0,
+    totalDocsExamined: 4,
+    executionStages: {
+      stage: 'COLLSCAN',
+      filter: { name: { '$eq': 'Sumit' } },
+      nReturned: 1,
+      executionTimeMillisEstimate: 0,
+      works: 6,
+      advanced: 1,
+      needTime: 4,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 4
+    }
+  },
+  command: {
+    find: 'cstOrder',
+    filter: { name: 'Sumit' },
+    '$db': 'customerOrder'
+  },
+  serverInfo: {
+    host: 'LAPTOP-ARQ61T6V',
+    port: 27017,
+    version: '6.0.5',
+    gitVersion: 'c9a99c120371d4d4c52cbb15dac34a36ce8d3b1d'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600
+  },
+  ok: 1
+}
+customerOrder> db.cstOrder.updateOne({name:"Pavan"},{$set:{"orders.$[element].prodName":"Laptop"}},{$arrayFilter:[{"element.prodName":"Laptpo"}]})
+MongoServerError: No array filter found for identifier 'element' in path 'orders.$[element].prodName'
+customerOrder> db.cstOrder.updateOne({name:"Pavan"},{$set:{"orders.$[element].prodName":"Laptop"}},{arrayFilter:[{"element.prodName":"Laptpo"}]})
+MongoServerError: No array filter found for identifier 'element' in path 'orders.$[element].prodName'
+customerOrder> db.cstOrder.updateOne({name:"Pavan"},{$set:{"orders.$[element].prodName":"Laptop"}},{arrayFilters:[{"element.prodName":"Laptpo"}]})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.find({},{name:1,orders:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    orders: [
+      { prodName: 'Mobile', quantity: 1, price: 15000 },
+      { prodName: 'Perfume', quantity: 2, price: 550 }
+    ]
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    orders: [
+      { prodName: 'Laptop', quantity: 1, price: 65000 },
+      { prodName: 'Perfume', quantity: 1, price: 1550 },
+      { prodName: 'Charger', quantity: 1, price: 350 }
+    ]
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    name: 'Rushi',
+    orders: [ { prodName: 'Watch', quantity: 1, price: 2000 } ]
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    name: 'Niraj',
+    orders: [
+      { prodName: 'Mobile', quantity: 2, price: 13000 },
+      { prodName: 'Laptop', quantity: 1, price: 55000 }
+    ]
+  }
+]
+customerOrder> db.cstOrder.insert({name:"Mahesh",email:"mahesh@test.com",contact:3232,age:41,address:{city:"Kolhapur",zip:323211},interestCat:["Cars","Books"],orders:[{prodName:"Car",quantity:1,price:400000}]})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("6546892918c789b17f1cc686") }
+}
+customerOrder> db.cstOrder.update({"address.city":"Kolhapur"},{$set:{"address.city":"KOP"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.find({},{name:1,address:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    address: { city: 'KOP', zip: 416108 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    address: { city: 'Sinnar', zip: 412908 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    name: 'Rushi',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    name: 'Niraj',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("6546892918c789b17f1cc686"),
+    name: 'Mahesh',
+    address: { city: 'Kolhapur', zip: 323211 }
+  }
+]
+customerOrder> db.cstOrder.update({"address.city":"Kolhapur"},{$set:{"address.city":"KOP"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.find({},{name:1,address:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    address: { city: 'KOP', zip: 416108 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    address: { city: 'Sinnar', zip: 412908 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    name: 'Rushi',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    name: 'Niraj',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("6546892918c789b17f1cc686"),
+    name: 'Mahesh',
+    address: { city: 'KOP', zip: 323211 }
+  }
+]
+customerOrder> db.cstOrder.update({"address.city":"Kolhapur"},{$set:{"address.city":"KOP"}},{multi:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.update({"address.city":"KOP"},{$set:{"address.city":"Kolhapur"}},{multi:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.find({},{name:1,address:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    address: { city: 'Kolhapur', zip: 416108 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    address: { city: 'Sinnar', zip: 412908 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    name: 'Rushi',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    name: 'Niraj',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("6546892918c789b17f1cc686"),
+    name: 'Mahesh',
+    address: { city: 'Kolhapur', zip: 323211 }
+  }
+]
+customerOrder> db.cstOrder.update({name:"Abhi"},{$set:{name:"Abhi Bhosale",age:21,address:{city:"Kolhapur",zip:412412}}},{multi:true},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+customerOrder> db.cstOrder.update({name:"Abhi"},{$set:{name:"Abhi Bhosale",age:21,address:{city:"Kolhapur",zip:412412}}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: ObjectId("65468a4ad13e65c5c3c59d11"),
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+customerOrder> db.cstOrder.find({},{name:1,address:1})
+[
+  {
+    _id: ObjectId("6546481f2fdfae7c1e0f8444"),
+    name: 'Sumit',
+    address: { city: 'Kolhapur', zip: 416108 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8445"),
+    name: 'Pavan',
+    address: { city: 'Sinnar', zip: 412908 }
+  },
+  {
+    _id: ObjectId("6546494b2fdfae7c1e0f8446"),
+    name: 'Rushi',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("65464cca2fdfae7c1e0f8447"),
+    name: 'Niraj',
+    address: { city: 'Baramati', zip: 411321 }
+  },
+  {
+    _id: ObjectId("6546892918c789b17f1cc686"),
+    name: 'Mahesh',
+    address: { city: 'Kolhapur', zip: 323211 }
+  },
+  {
+    _id: ObjectId("65468a4ad13e65c5c3c59d11"),
+    name: 'Abhi Bhosale',
+    address: { city: 'Kolhapur', zip: 412412 }
+  }
+]
+customerOrder> db.cstOrder.find({$and:[{name:"Rushi"},{"address.city":"Baramati"}]},{_id:0,orders:0,interestCat:0})
+[
+  {
+    name: 'Rushi',
+    email: 'rushi@test.com',
+    contact: 1231,
+    age: 16,
+    address: { city: 'Baramati', zip: 411321 }
+  }
+]
+customerOrder> db.cstOrder.find({$and:[{name:"Rushii"},{"address.city":"Baramati"}]},{_id:0,orders:0,interestCat:0})
+
+customerOrder> db.cstOrder.find({$and:[{age:{$gt:25}},{"address.city":"Kolhapur"}]},{_id:0,orders:0,interestCat:0})
+[
+  {
+    name: 'Mahesh',
+    email: 'mahesh@test.com',
+    contact: 3232,
+    age: 41,
+    address: { city: 'Kolhapur', zip: 323211 }
+  }
+]
+customerOrder> db.cstOrder.find({$and:[{age:{$lt:25}},{"address.city":"Kolhapur"}]},{_id:0,orders:0,interestCat:0})
+[
+  {
+    name: 'Sumit',
+    email: 'sumit@test.com',
+    contact: 3214,
+    age: 20,
+    address: { city: 'Kolhapur', zip: 416108 }
+  },
+  {
+    name: 'Abhi Bhosale',
+    address: { city: 'Kolhapur', zip: 412412 },
+    age: 21
+  }
+]
+customerOrder> db.cstOrder.find({$and:[{age:{$gte:21}},{"address.city":"Kolhapur"}]},{_id:0,orders:0,interestCat:0})
+[
+  {
+    name: 'Mahesh',
+    email: 'mahesh@test.com',
+    contact: 3232,
+    age: 41,
+    address: { city: 'Kolhapur', zip: 323211 }
+  },
+  {
+    name: 'Abhi Bhosale',
+    address: { city: 'Kolhapur', zip: 412412 },
+    age: 21
+  }
+]
+customerOrder> db.cstOrder.find({$or:[{"address.city":"Sinnar"},{"address.city":"Baramati"}]},{name:1})
+[
+  { _id: ObjectId("6546494b2fdfae7c1e0f8445"), name: 'Pavan' },
+  { _id: ObjectId("6546494b2fdfae7c1e0f8446"), name: 'Rushi' },
+  { _id: ObjectId("65464cca2fdfae7c1e0f8447"), name: 'Niraj' }
+]
+customerOrder> db.cstOrder.find({$or:[{age:{$in:[21,41]}},{name:1})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.cstOrder.find({$or:[{age:{$in:[21,41]}},{name:1})
+    |                                                    ^
+  2 |
+
+customerOrder> db.cstOrder.find({age:{$in:[21,41]}},{name:1})
+[
+  { _id: ObjectId("6546892918c789b17f1cc686"), name: 'Mahesh' },
+  { _id: ObjectId("65468a4ad13e65c5c3c59d11"), name: 'Abhi Bhosale' }
+]
+customerOrder> db.cstOrder.find({age:{$eq:20}},{name:1})
+[ { _id: ObjectId("6546481f2fdfae7c1e0f8444"), name: 'Sumit' } ]
+customerOrder> db.cstOrder.find({age:{$ne:20}},{name:1})
+[
+  { _id: ObjectId("6546494b2fdfae7c1e0f8445"), name: 'Pavan' },
+  { _id: ObjectId("6546494b2fdfae7c1e0f8446"), name: 'Rushi' },
+  { _id: ObjectId("65464cca2fdfae7c1e0f8447"), name: 'Niraj' },
+  { _id: ObjectId("6546892918c789b17f1cc686"), name: 'Mahesh' },
+  { _id: ObjectId("65468a4ad13e65c5c3c59d11"), name: 'Abhi Bhosale' }
+]
+customerOrder>

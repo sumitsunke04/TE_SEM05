@@ -1,0 +1,69 @@
+create trigger lib_bupd
+before update
+on library
+for each row
+begin
+declare invalid_update condition for sqlstate '45000';
+declare exit handler for invalid_update resignal set message_text='INVALID UPDATION!!';
+if(old.bid<0) then
+signal invalid_update;
+end if;
+insert into libraryaudit values(old.bid,old.bname);
+end //
+
+
+
+create trigger lib_bdel
+before delete 
+on library
+for each row
+begin
+declare invalid_delete condition for sqlstate '45000';
+declare continue handler for invalid_delete resignal set message_text='INVALID DELTEION';
+if(old.bid<0) then
+signal invalid_delete;
+end if;
+insert into libraryaudit values(old.bid,old.bname);
+end //
+
+
+create trigger lib_aupd
+after update
+on library
+for each row
+begin
+declare invalid_update condition for sqlstate '45000';
+declare continue handler for invalid_update resignal set message_text='INVALID UPDATE!!!';
+if(old.bid<0) then
+signal invalid_update;
+end if;
+insert into libraryaudit values(old.bid,old.bname);
+end //
+
+create trigger lib_bins
+before insert
+on library
+for each row
+begin
+declare invalid_insert condition for sqlstate '45000';
+declare exit handler for invalid_insert resignal set message_text='INVALID INSERT';
+if(new.bid<0) then
+signal invalid_insert;
+end if;
+insert into libraryaudit values(new.bid,new.bname);
+end //
+
+
+
+create trigger lib_ains
+after insert
+on library
+for each row
+begin
+declare invalid_insert condition for sqlstate '45000';
+declare continue handler for invalid_insert resignal set message_text='INVALID INSERT';
+if(new.bid<0) then
+signal invalid_insert;
+end if;
+insert into libraryaudit values(new.bid,new.bname);
+end //

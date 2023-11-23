@@ -1,0 +1,248 @@
+SUB : DBSL
+ASSIGNMENT 3
+NAME : SUMIT SUNKE
+ROLL NO : 31274 (N2)
+
+PROBLEM STATEMENT:
+Assignment No 2  (Student Schema)
+Consider the following relational Schema.  
+    •  Student( s_id,Drive_id,T_id,s_name,CGPA,s_branch,S_dob)
+    •  PlacementDrive( Drive_id,Pcompany_name,package,location)
+    •  Training ( T_id,Tcompany_name,T_Fee,T_year) .
+
+---------------------------------------------------------------------------------------------------------
+
+
+mysql> select *from training;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    1 | google        |  2018 |   2017 |
+|    2 | tesla         | 20017 |   2015 |
+|    3 | phonepe       |  2017 |   2011 |
+|    4 | tcs           | 20017 |   2013 |
+|    5 | wipro         |  2014 |   2009 |
+|    6 | microsoft     | 20016 |   2015 |
+|    7 | druva         |  2014 |   2007 |
+|    8 | ubs           | 20012 |   2004 |
++------+---------------+-------+--------+
+8 rows in set (0.00 sec)
+
+mysql> select *from student;
++------+----------+------+----------+------+----------+------------+
+| s_id | drive_id | t_id | s_name   | cgpa | s_branch | s_dob      |
++------+----------+------+----------+------+----------+------------+
+|    2 |        2 |    2 | adi      |    9 | it       | 2003-02-02 |
+|    3 |        3 |    3 | mayur    |  8.9 | cs       | 2003-03-03 |
+|    4 |        4 |    4 | pavan    |  9.2 | cs       | 2003-04-04 |
+|    6 |        6 |    2 | sumit    |  8.9 | cs       | 2002-01-06 |
+|    7 |        5 |    3 | shantanu |  8.7 | cs       | 2003-04-06 |
+|    8 |        5 |    6 | amey     |  8.2 | cs       | 2002-03-08 |
+|    9 |        4 |    1 | darshan  | 10.1 | entc     | 2002-04-09 |
+|   10 |        3 |    2 | om       |  8.6 | entc     | 2002-05-10 |
++------+----------+------+----------+------+----------+------------+
+8 rows in set (0.00 sec)
+
+mysql> select *from placement_drive;
++----------+---------------+---------+----------+
+| drive_id | pcompany_name | package | location |
++----------+---------------+---------+----------+
+|        1 | google        |  400000 | pune     |
+|        2 | amazon        |  300000 | mumbai   |
+|        3 | tesla         |  600000 | kolhapur |
+|        4 | meta          |  500000 | satara   |
+|        5 | phonepe       |  350000 | pune     |
+|        6 | tcs           |  400000 | mumbai   |
+|        7 | microsoft     |  650000 | thane    |
++----------+---------------+---------+----------+
+
+
+QUERY 1: FIND THE STUDENT DETAILS AND PLACEMENT DETAILS USING NATURAL JOIN
+
+mysql> select *from student natural join placement_drive;
++----------+------+------+----------+------+----------+------------+---------------+---------+----------+
+| drive_id | s_id | t_id | s_name   | cgpa | s_branch | s_dob      | pcompany_name | package | location |
++----------+------+------+----------+------+----------+------------+---------------+---------+----------+
+|        2 |    2 |    2 | adi      |    9 | it       | 2003-02-02 | amazon        |  300000 | mumbai   |
+|        3 |    3 |    3 | mayur    |  8.9 | cs       | 2003-03-03 | tesla         |  600000 | kolhapur |
+|        7 |    4 |    4 | pavan    |  9.2 | cs       | 2003-04-04 | microsoft     |  650000 | thane    |
+|        6 |    6 |    2 | sumit    |  8.9 | cs       | 2002-01-06 | tcs           |  400000 | mumbai   |
+|        5 |    7 |    3 | shantanu |  8.7 | cs       | 2003-04-06 | phonepe       |  350000 | pune     |
+|        5 |    8 |    6 | amey     |  8.2 | cs       | 2002-03-08 | phonepe       |  350000 | pune     |
+|        4 |    9 |    1 | darshan  | 10.1 | entc     | 2002-04-09 | meta          |  500000 | satara   |
+|        3 |   10 |    2 | om       |  8.6 | entc     | 2002-05-10 | tesla         |  600000 | kolhapur |
++----------+------+------+----------+------+----------+------------+---------------+---------+----------+
+
+QUERY 2 : FIND ALL STUDENT DETAILS WITH COMPANY NAME WHO HAVE CONDUCTED IN SAME DRIVE
+
+mysql> select s.*,p.pcompany_name from student as s left join placement_drive as p on s.drive_id = p.drive_id;
++------+----------+------+----------+------+----------+------------+---------------+
+| s_id | drive_id | t_id | s_name   | cgpa | s_branch | s_dob      | pcompany_name |
++------+----------+------+----------+------+----------+------------+---------------+
+|    2 |        2 |    2 | adi      |    9 | it       | 2003-02-02 | amazon        |
+|    3 |        3 |    3 | mayur    |  8.9 | cs       | 2003-03-03 | tesla         |
+|    4 |        7 |    4 | pavan    |  9.2 | cs       | 2003-04-04 | microsoft     |
+|    6 |        6 |    2 | sumit    |  8.9 | cs       | 2002-01-06 | tcs           |
+|    7 |        5 |    3 | shantanu |  8.7 | cs       | 2003-04-06 | phonepe       |
+|    8 |        5 |    6 | amey     |  8.2 | cs       | 2002-03-08 | phonepe       |
+|    9 |        4 |    1 | darshan  | 10.1 | entc     | 2002-04-09 | meta          |
+|   10 |        3 |    2 | om       |  8.6 | entc     | 2002-05-10 | tesla         |
++------+----------+------+----------+------+----------+------------+---------------+
+
+QUERY 3 : LIST ALL STUDENT NAME AND STUDENT BRANCH HAVING PACKAGE 5LPA
+
+mysql> select s.s_name,s.s_branch from student as s left join placement_drive as p on p.drive_id = s.drive_id where p.package>=500000;
++---------+----------+
+| s_name  | s_branch |
++---------+----------+
+| mayur   | cs       |
+| pavan   | cs       |
+| darshan | entc     |
+| om      | entc     |
++---------+----------+
+
+QUERY 4 : LIST ALL STUDENT NAME,COMPANY NAME HAVING TFEE MORE THAN 20000
+
+mysql> select s.s_name,t.tcompany_name,t.t_fee from student as s right join training as t on s.t_id = t.t_id where t.t_fee>20000;
++--------+---------------+-------+
+| s_name | tcompany_name | t_fee |
++--------+---------------+-------+
+| adi    | tesla         | 20017 |
+| sumit  | tesla         | 20017 |
+| om     | tesla         | 20017 |
+| pavan  | tcs           | 20017 |
+| amey   | microsoft     | 20016 |
+| NULL   | ubs           | 20012 |
++--------+---------------+-------+
+
+QUERY 5 : DISPLAY ALL TRAINING DETAILS ATTENDED BY SHANTANU IN 2011
+
+mysql> select t.* from student as s right join training as t on t.t_id = s.t_id where s.s_name = 'shantanu' and t.t_year = 2011;
++------+---------------+-------+--------+
+| t_id | tcompany_name | t_fee | t_year |
++------+---------------+-------+--------+
+|    3 | phonepe       |  2017 |   2011 |
++------+---------------+-------+--------+
+
+QUERY 6 : LIST THE TOTAL NUMBER OF COMPANIES WHO CONDUCT TRAINING BEFORE 2015
+
+mysql> select count(tcompany_name) as cb2 from training where t_year<2015;
++-----+
+| cb2 |
++-----+
+|   5 |
++-----+
+
+QUERY 7 : LIST STUDENT NAME WITH COMPANY MICROSOFT AND LOCATION THANE
+
+mysql> select s.s_name,p.pcompany_name,p.location from student as s natural join placement_drive as p where p.location = 'thane' and p.pcompany_name ='microsoft';
++--------+---------------+----------+
+| s_name | pcompany_name | location |
++--------+---------------+----------+
+| pavan  | microsoft     | thane    |
++--------+---------------+----------+
+
+QUERY 8 : FIND THE NAMES OF STUDENTS WHO JOINED MICROSOFT TRAINING IN 2015
+
+mysql> select s.*from student as s left join training as t on s.t_id = t.t_id where t.tcompany_name = 'microsoft' and t.t_year<=2015;
++------+----------+------+--------+------+----------+------------+
+| s_id | drive_id | t_id | s_name | cgpa | s_branch | s_dob      |
++------+----------+------+--------+------+----------+------------+
+|    8 |        5 |    6 | amey   |  8.2 | cs       | 2002-03-08 |
++------+----------+------+--------+------+----------+------------+
+
+QUERY 9: CREATE A VIEW SHOWING THE STUDENT AND TRAINING DETAILS
+
+mysql> create view studentTraining as select *from  student natural join training;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select *from studentTraining;
++------+------+----------+----------+------+----------+------------+---------------+-------+--------+
+| t_id | s_id | drive_id | s_name   | cgpa | s_branch | s_dob      | tcompany_name | t_fee | t_year |
++------+------+----------+----------+------+----------+------------+---------------+-------+--------+
+|    2 |    2 |        2 | adi      |    9 | it       | 2003-02-02 | tesla         | 20017 |   2015 |
+|    3 |    3 |        3 | mayur    |  8.9 | cs       | 2003-03-03 | phonepe       |  2017 |   2011 |
+|    4 |    4 |        7 | pavan    |  9.2 | cs       | 2003-04-04 | tcs           | 20017 |   2013 |
+|    2 |    6 |        6 | sumit    |  8.9 | cs       | 2002-01-06 | tesla         | 20017 |   2015 |
+|    3 |    7 |        5 | shantanu |  8.7 | cs       | 2003-04-06 | phonepe       |  2017 |   2011 |
+|    6 |    8 |        5 | amey     |  8.2 | cs       | 2002-03-08 | microsoft     | 20016 |   2015 |
+|    1 |    9 |        4 | darshan  | 10.1 | entc     | 2002-04-09 | google        |  2018 |   2017 |
+|    2 |   10 |        3 | om       |  8.6 | entc     | 2002-05-10 | tesla         | 20017 |   2015 |
++------+------+----------+----------+------+----------+------------+---------------+-------+--------+
+
+QUERY 10 : PERFORM MANUPULATION ON SIMPLE VIEW.
+
+mysql> create view stdview as select s_id,s_name,s_branch from student;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select *from stdview;
++------+----------+----------+
+| s_id | s_name   | s_branch |
++------+----------+----------+
+|    2 | adi      | it       |
+|    3 | mayur    | cs       |
+|    4 | pavan    | cs       |
+|    6 | sumit    | cs       |
+|    7 | shantanu | cs       |
+|    8 | amey     | cs       |
+|    9 | darshan  | entc     |
+|   10 | om       | entc     |
++------+----------+----------+
+8 rows in set (0.00 sec)
+
+
+mysql> update stdview set s_branch = 'it' where s_id = 10;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select *from stdview;
++------+----------+----------+
+| s_id | s_name   | s_branch |
++------+----------+----------+
+|    2 | adi      | it       |
+|    3 | mayur    | cs       |
+|    4 | pavan    | cs       |
+|    6 | sumit    | cs       |
+|    7 | shantanu | cs       |
+|    8 | amey     | cs       |
+|    9 | darshan  | entc     |
+|   10 | om       | it       |
++------+----------+----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into stdview values(11,'siddharth','cs');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> select *from stdview;
++------+-----------+----------+
+| s_id | s_name    | s_branch |
++------+-----------+----------+
+|    2 | adi       | it       |
+|    3 | mayur     | cs       |
+|    4 | pavan     | cs       |
+|    6 | sumit     | cs       |
+|    7 | shantanu  | cs       |
+|    8 | amey      | cs       |
+|    9 | darshan   | entc     |
+|   10 | om        | it       |
+|   11 | siddharth | cs       |
++------+-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select *from student;
++------+----------+------+-----------+------+----------+------------+
+| s_id | drive_id | t_id | s_name    | cgpa | s_branch | s_dob      |
++------+----------+------+-----------+------+----------+------------+
+|    2 |        2 |    2 | adi       |    9 | it       | 2003-02-02 |
+|    3 |        3 |    3 | mayur     |  8.9 | cs       | 2003-03-03 |
+|    4 |        7 |    4 | pavan     |  9.2 | cs       | 2003-04-04 |
+|    6 |        6 |    2 | sumit     |  8.9 | cs       | 2002-01-06 |
+|    7 |        5 |    3 | shantanu  |  8.7 | cs       | 2003-04-06 |
+|    8 |        5 |    6 | amey      |  8.2 | cs       | 2002-03-08 |
+|    9 |        4 |    1 | darshan   | 10.1 | entc     | 2002-04-09 |
+|   10 |        3 |    2 | om        |  8.6 | it       | 2002-05-10 |
+|   11 |     NULL | NULL | siddharth | NULL | cs       | NULL       |
++------+----------+------+-----------+------+----------+------------+
+9 rows in set (0.01 sec)
+
+mysql> drop view stdview;
+Query OK, 0 rows affected (0.01 sec)

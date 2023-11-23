@@ -1,0 +1,103 @@
+Name - Sumit Sunke
+Roll no - 31274
+Sub : DBSL
+Assignment No 6
+
+
+Cursors: (All types: Implicit, Explicit, Cursor FOR Loop, Parameterized Cursor) Write a PL/SQL block of code using parameterized Cursor, that will merge the data available in the newly created table Cust_New with the data available in the table Cust_Old. If the data in the first table already exist in the second table then that data should be skipped. 
+
+******************************************************************************************************************************************
+#TABLES
+
+mysql> desc customer_old;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| cid        | int         | NO   | PRI | NULL    | auto_increment |
+| cname      | varchar(20) | YES  |     | NULL    |                |
+| order_cost | float       | YES  |     | NULL    |                |
+| visit      | date        | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> desc customer_new;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| cid        | int         | NO   | PRI | NULL    | auto_increment |
+| cname      | varchar(20) | YES  |     | NULL    |                |
+| order_cost | float       | YES  |     | NULL    |                |
+| visit      | date        | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+#CURSOR DEFINATION
+
+mysql> delimiter $
+mysql> create procedure cur_op( c_id int )
+    -> begin
+    -> declare cid_2 int;
+    -> declare exit_loop boolean;
+    -> declare c1 cursor for select cid from customer_old where cid > c_id;
+    -> declare continue handler for not found set exit_loop = true;
+    -> open c1;
+    -> cust_loop: loop
+    -> fetch c1 into cid_2;
+    -> if not exists (select * from customer_new where cid = cid_2) then
+    -> insert into customer_new select * from customer_old where cid = cid_2;
+    -> end if;
+    -> if exit_loop then
+    -> close c1;
+    -> leave cust_loop;
+    -> end if;
+    -> end loop cust_loop;
+    -> end$
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+#PROCEDURE CALL
+
+mysql> select *from customer_old;
++-----+--------+------------+------------+
+| cid | cname  | order_cost | visit      |
++-----+--------+------------+------------+
+|   1 | Sumit  |     337.29 | 2023-09-10 |
+|   2 | Pavan  |    3500.86 | 2023-09-14 |
+|   3 | Amey   |         69 | 2023-07-22 |
+|   4 | Vibhav |      105.5 | 2023-09-22 |
+|   5 | Niraj  |        200 | 2023-09-20 |
+|   6 | Omkar  |     160.25 | 2023-09-20 |
++-----+--------+------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select *from customer_new;
+Empty set (0.00 sec)
+
+mysql> call cur_op(5);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from customer_new;
++-----+--------+------------+------------+
+| cid | cname  | order_cost | visit      |
++-----+--------+------------+------------+
+|   6 | Omkar  |     160.25 | 2023-09-20 |
++-----+--------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> call cur_op(0);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from customer_new;
++-----+--------+------------+------------+
+| cid | cname  | order_cost | visit      |
++-----+--------+------------+------------+
+|   1 | Sumit  |     337.29 | 2023-09-10 |
+|   2 | Pavan  |    3500.86 | 2023-09-14 |
+|   3 | Amey   |         69 | 2023-07-22 |
+|   4 | Vibhav |      105.5 | 2023-09-22 |
+|   5 | Niraj  |        200 | 2023-09-20 |
+|   6 | Omkar  |     160.25 | 2023-09-20 |
++-----+--------+------------+------------+
+6 rows in set (0.00 sec)

@@ -1,0 +1,209 @@
+Name : Sumit Sunke
+Roll No: 31274
+Sub : DBSL
+Assignment No 4
+
+C:\Users\HP>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+
+
+mysql> use assignments;
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_assignments |
++-----------------------+
+| borrower              |
+| fine                  |
++-----------------------+
+2 rows in set (0.00 sec)
+
+ 
+******************PART1**********************
+
+//CREATING PROCEDURE
+mysql> delimiter //
+mysql> create procedure calculatefine(roll int,bookname varchar(200))
+    -> begin declare amount int;
+    -> declare dateissued date;
+    -> declare no_days int;
+    -> declare futureissuedate condition for sqlstate '45000';
+    -> declare continue handler for not found
+    -> set amount = 0;
+    -> set no_days = null;
+    -> select Date_of_Issue into  dateissued from Borrower where Roll_No = roll and Name_of_Book = bookname;
+    -> set no_days = datediff(curdate(),dateissued);
+    -> if no_days is null or no_days < 0 then
+    -> if no_days is null then
+    -> select 'selected roll number has not borrowed any book/ invalid rollno or book name';
+    -> else
+    -> select 'a book cannot be returned which has a future issue date.';
+    -> end if;
+    -> else
+    -> if no_days >= 15 and no_days <= 30 then
+    -> set amount = no_days * 5;
+    -> elseif no_days > 30 then
+    -> set amount = no_days * 50;
+    -> end if;
+    -> update Borrower set Status = 'r' where Roll_no = roll and Name_of_Book  = bookname;
+    -> insert into Fine values (roll, curdate(), amount);
+    -> commit;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.04 sec)
+
+
+
+
+***********Inserting data into Borrower table
+
+mysql> insert into Borrower values(2,'2023/01/19',"CNS","I");//
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into Borrower values(3,'2023/08/10',"SPOS","I");
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into Borrower values(4,'2023/08/31',"TOC","I");
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> insert into Borrower values(5,'2023/08/31',"DS","I");
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> select *from Borrower;
++---------+---------------+--------------+--------+
+| Roll_no | Date_of_Issue | Name_of_Book | Status |
++---------+---------------+--------------+--------+
+|       1 | 2023-01-15    | Dbms         | r      |
+|       2 | 2023-01-19    | CNS          | r      |
+|       3 | 2023-08-10    | SPOS         | I      |
+|       4 | 2023-08-31    | TOC          | I      |
+|       5 | 2023-08-31    | DS           | I      |
++---------+---------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+
+************Calling Procedure*******************
+
+mysql> call calculatefine(6,'ABCD');
++-----------------------------------------------------------------------------+
+| selected roll number has not borrowed any book/ invalid rollno or book name |
++-----------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call calculatefine(3,'SPOS');
+Query OK, 0 rows affected (0.01 sec)
+
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| Roll_no       | int          | NO   | PRI | NULL    |       |
+| Date_of_Issue | date         | NO   |     | NULL    |       |
+| Name_of_Book  | varchar(200) | NO   |     | NULL    |       |
+| Status        | varchar(2)   | NO   |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> desc Fine;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Roll_no      | int  | NO   | PRI | NULL    |       |
+| Date_of_Fine | date | NO   |     | NULL    |       |
+| Amount       | int  | NO   |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select *from Fine;
++---------+--------------+--------+
+| Roll_no | Date_of_Fine | Amount |
++---------+--------------+--------+
+|       1 | 2023-09-12   |  12000 |
+|       2 | 2023-09-12   |  11800 |
+|       3 | 2023-09-12   |   1650 |
++---------+--------------+--------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+***************PART 2**********************
+
+//CREATING PROCEDURE
+
+mysql> delimiter //
+mysql> create procedure get_area(in r float,out area float)
+    -> begin
+    -> declare invalid_radius condition for sqlstate '45000';
+    -> declare continue handler for invalid_radius
+    -> resignal set message_text='Radius should be between 5 and 9';
+    -> if r<5 or r>9 then
+    -> signal invalid_radius;
+    -> else
+    -> set area=3.14*r*r;
+    -> insert into circle values(r,3.14*r*r);
+    -> select area;
+    -> select *from circle;
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> delimiter ;
+
+//CREATING TABLE
+mysql> create table circle(radius float,area float);
+Query OK, 0 rows affected (0.05 sec)
+
+//CALLING PROCEDURE
+mysql> call get_Area(7,@area);
++--------+
+| area   |
++--------+
+| 153.86 |
++--------+
+1 row in set (0.01 sec)
+
++--------+--------+
+| radius | area   |
++--------+--------+
+|      7 | 153.86 |
++--------+--------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+mysql> call get_area(8.2,@area);
++---------+
+| area    |
++---------+
+| 211.134 |
++---------+
+1 row in set (0.04 sec)
+
++--------+---------+
+| radius | area    |
++--------+---------+
+|      7 |  153.86 |
+|    8.2 | 211.134 |
++--------+---------+
+2 rows in set (0.04 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> call get_area(3,@area);
+ERROR 1644 (45000): Radius should be between 5 and 9
+mysql>

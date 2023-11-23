@@ -1,0 +1,147 @@
+package Program;
+import java.util.Scanner;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+public class JDBC {
+    public static void main(String args[])
+    {
+        System.out.println("DATABASE CONNECTIVITY IN JAVA");
+        Connection connection = null;
+        Statement statement;
+        ResultSet resultset;
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://10.10.15.233/te31274db","te31274","te31274");
+
+            statement = connection.createStatement();
+
+            String tableName="city2";
+            while (true) {
+                System.out.println(
+                        "\n---------------------------------\nMain Menu \n1. Create table \n2. Read table \n3. Insert  \n4. Update \n5. Delete\n6. Exit \n--------------------------------- \n");
+                System.out.println("Enter the choice : ");
+                int choice = sc.nextInt();
+
+                if (choice == 1) {
+                    connection.createStatement();
+                    statement.executeUpdate("create table city2(id int unsigned not null auto_increment,primary key(id),name varchar(255))");
+
+                } else if (choice == 2) {
+                    String readTableQuery = "SELECT * FROM " + tableName + ";";
+                    resultset = statement.executeQuery(readTableQuery);
+
+                    ResultSetMetaData resultSetMetaData = resultset.getMetaData();
+                    int colCount = resultSetMetaData.getColumnCount();
+                    for (int i = 1; i <= colCount; i++) {
+                        System.out.print(resultSetMetaData.getColumnName(i) + "\t");
+                    }
+                    while (resultset.next()) {
+                        System.out.println();
+                        for (int i = 1; i <= colCount; i++) {
+                            System.out.print(resultset.getString(i) + "\t");
+                        }
+                    }
+                } else if (choice == 3) {
+// Insert into table
+// Get the column names from the table
+                    String readTableQuery = "SELECT * FROM " + tableName + ";";
+                    resultset = statement.executeQuery(readTableQuery);
+                    ResultSetMetaData resultSetMetaData = resultset.getMetaData();
+                    int colCount = resultSetMetaData.getColumnCount();
+
+// Prepare the INSERT query
+                    StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
+                    for (int i = 1; i <= colCount; i++) {
+                        insertQuery.append(resultSetMetaData.getColumnName(i));
+                        if (i < colCount) {
+                            insertQuery.append(", ");
+                        }
+                    }
+                    insertQuery.append(") VALUES (");
+
+// Collect values to insert
+                    for (int i = 1; i <= colCount; i++) {
+                        System.out.print("Enter the value for " + resultSetMetaData.getColumnName(i) + ": ");
+                        String value = sc.next();
+                        insertQuery.append("'" + value + "'");
+                        if (i < colCount) {
+                            insertQuery.append(", ");
+                        }
+                    }
+                    insertQuery.append(");");
+
+// Execute the INSERT query
+                    try {
+                        statement.executeUpdate(insertQuery.toString());
+                        System.out.println("Data inserted successfully.");
+                    } catch (SQLException e) {
+                        System.out.println("Error inserting data: " + e.getMessage());
+                    }
+                } else if (choice == 4) {
+// Update
+                    String readTableQuery = "SELECT * FROM " + tableName + ";";
+                    resultset = statement.executeQuery(readTableQuery);
+                    ResultSetMetaData resultSetMetaData = resultset.getMetaData();
+                    int colCount = resultSetMetaData.getColumnCount();
+                    for (int i = 1; i <= colCount; i++) {
+                        System.out.print(i + " " + resultSetMetaData.getColumnName(i) + "\t");
+                    }
+
+                    System.out.println("\n Select the column you want to update: ");
+                    int colToUpdate = sc.nextInt();
+
+                    System.out.println("Enter the updated value of column - : " + resultSetMetaData.getColumnName(colToUpdate) );
+                    String afterUpdate = sc.next();
+
+                    System.out.println("Enter the updation rule (colName = value ): ");
+                    String updateRule = sc.next();
+
+// Prepare the UPDATE query
+                    String updateTableQuery = "UPDATE " + tableName + " SET "
+                            + resultSetMetaData.getColumnName(colToUpdate) + "='" + afterUpdate + "' WHERE "
+                            + updateRule;
+
+                    try {
+                        int rowsAffected = statement.executeUpdate(updateTableQuery);
+
+                        if (rowsAffected > 0) {
+                            System.out.println("Update successful. " + rowsAffected + " row(s) affected.");
+                        } else {
+                            System.out.println("No rows updated.");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("Error updating data: " + e.getMessage());
+                    }
+                } else if (choice == 5) { // delete
+                    System.out.println("Enter the deletion rule (colName = value ) : ");
+                    String deleteRule = sc.next();
+
+                    String deleteTableQuery = "DELETE FROM " + tableName + " WHERE " + deleteRule;
+                    System.out.println(deleteTableQuery);
+
+                    try {
+                        statement.executeUpdate(deleteTableQuery);
+                        System.out.println("Data deleted successfully.");
+                    } catch (SQLException e) {
+                        System.out.println("Error inserting data: " + e.getMessage());
+                    }
+
+                } else if (choice == 6) {
+                    System.out.println("Exiting...");
+                    break;
+                }
+
+            }
+
+// resultset.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+}
